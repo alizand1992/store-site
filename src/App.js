@@ -19,7 +19,7 @@ function App() {
         <Menu />
         <br />
         <Switch>
-          <Route path={/(\/|gallery)/}>
+          <Route path={['/', 'gallery']}>
             <Gallery />
           </Route>
         </Switch>

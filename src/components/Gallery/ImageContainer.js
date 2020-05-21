@@ -7,12 +7,15 @@ class ImageContainer extends React.Component {
     const { thumbnail, name } = this.props;
 
     return (
-      <Card>
-        <Card.Img variant="top" src={thumbnail} />
-        <Card.Body>
-          <Card.Text className="text-center">{name}</Card.Text>
-        </Card.Body>
-      </Card>
+      <React.Fragment>
+        <Card>
+          <Card.Img variant="top" src={thumbnail} />
+          <Card.Body>
+            <Card.Text className="text-center">{name}</Card.Text>
+          </Card.Body>
+        </Card>
+        <br />
+      </React.Fragment>
     )
   }
 }

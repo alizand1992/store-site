@@ -1,8 +1,13 @@
 import React from 'react';
 
+import { v1 as uuidv1 } from 'uuid';
+
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+
 import ImageContainer from './ImageContainer';
+
+import { getThumbnails } from '../../util/ajax/gallery';
 
 const images = {
   bowl_1: {
@@ -47,12 +52,16 @@ const images = {
 };
 
 class Gallery extends React.Component {
+  componentDidMount() {
+    getThumbnails();
+  }
+
   render() {
     return (
       <Row>
         {Object.values(images).map((item) => {
           return (
-            <Col xs={12} s={12} md={6} lg={4}>
+            <Col xs={12} s={12} md={6} lg={4} key={uuidv1()}>
               <ImageContainer thumbnail={item.files[0]} />
             </Col>
           );

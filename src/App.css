@@ -10,3 +10,21 @@ h1 {
 span.menu-item {
     font-size: 28px;
 }
+
+@media (max-width: 768px) {
+    span.menu-container {
+        display: none;
+    }
+
+    span.menu-container-xs {
+        display: block;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media (min-width: 769px) {
+    span.menu-container-xs {
+        display: none;
+    }
+}

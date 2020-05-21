@@ -1,0 +1,16 @@
+language: node_js
+
+node_js:
+  - 12.16.2
+
+branches:
+  only:
+    - master
+    - /SITE-\d*-/
+
+jobs:
+  include:
+    - name: "Jest + Enzyme Tests"
+      script:
+        - npm install
+        - npm run test

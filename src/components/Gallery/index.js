@@ -11,7 +11,7 @@ import { getThumbnails } from '../../util/ajax/gallery';
 
 const images = {
   bowl_1: {
-    name: '',
+    name: 'Bowl 1',
     year: '',
     size: '',
     material: '',
@@ -26,7 +26,7 @@ const images = {
     ],
   },
   bowl_2: {
-    name: '',
+    name: 'Bowl 2',
     year: '',
     size: '',
     material: '',
@@ -39,7 +39,7 @@ const images = {
     ],
   },
   bowl_3: {
-    name: '',
+    name: 'Bowl 3',
     year: '',
     size: '',
     material: '',
@@ -62,7 +62,7 @@ class Gallery extends React.Component {
         {Object.values(images).map((item) => {
           return (
             <Col xs={12} s={12} md={6} lg={4} key={uuidv1()}>
-              <ImageContainer thumbnail={item.files[0]} />
+              <ImageContainer thumbnail={item.files[0]} name={item.name} />
             </Col>
           );
         })}

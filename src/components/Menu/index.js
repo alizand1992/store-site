@@ -10,7 +10,7 @@ class Menu extends React.Component {
           <h1>MEHRNAZ NOBARINIA</h1>
         </Navbar.Brand>
         <Nav className="ml-auto">
-          <Nav.Link><span className="menu-item">Work</span></Nav.Link>
+          <Nav.Link active={true}><span className="menu-item">Work</span></Nav.Link>
           <Nav.Link><span className="menu-item">Exhibition</span></Nav.Link>
           <Nav.Link><span className="menu-item">About</span></Nav.Link>
           <Nav.Link><span className="menu-item">Contact</span></Nav.Link>

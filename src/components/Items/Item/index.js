@@ -3,6 +3,10 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { connect } from 'react-redux';
+
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+
 import { bindActionCreators } from 'redux';
 import { setCurrentComponent } from '../../../actions/common';
 
@@ -11,7 +15,9 @@ class Item extends React.Component {
     super(props);
 
     this.state = {
-      fields: []
+      fields: [],
+      files: [],
+      percent: 0,
     }
   }
 
@@ -26,28 +32,59 @@ class Item extends React.Component {
 
   drop = (e) => {
     e.preventDefault();
-    console.log('drop', e.dataTransfer.files)
+
+    // Stop the progress bar
+    clearInterval(this.interval);
+    this.interval = 0;
+
+    const { files: newFiles } = e.dataTransfer;
+    const { files } = this.state;
+
+    // merge file list
+    files.push(newFiles);
+
+    this.setState({
+      percent: 0,
+      files,
+    });
   }
 
   drag = (e) => {
     e.preventDefault();
 
-    this.setState()
+    if (!this.interval) {
+      this.interval = setInterval(() => {
+        let {percent} = this.state;
+
+        if (percent < 100) {
+          percent++;
+          this.setState({percent});
+        }
+      }, 1);
+    }
   }
 
   render() {
-    const { fields } = this.state;
+    const { fields, percent } = this.state;
 
     return (
       <Row>
         <Col lg={6} md={12}>
-          <div onDropCapture={(e) => this.drag(e, 'drop capture')}
-               onDrop={(e) => this.drop(e)}
+          <div onDrop={(e) => this.drop(e)}
                onDragOver={(e) => this.drag(e)}
                onDragEnter={(e) => this.drag(e)}
                className="drop-zone" id="item-drop-zone">
-            <i className="material-icons md-64">archive</i><br />
-            Drag and Drop you images or click to upload
+            {percent === 0 &&
+              <span style={{display: 'inline-block'}}>
+                <i className="material-icons md-64">archive</i><br/>
+                Drag and Drop you images or click to upload
+              </span>
+            }
+            {percent !==  0 &&
+              <span style={{width: '85px', display: 'inline-block'}}>
+                <CircularProgressbar value={this.state.percent} text={''}/>
+              </span>
+            }
           </div>
           <div>
             preview

@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 
+import { connect } from 'react-redux';
+
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // Bootstrap
@@ -18,18 +20,25 @@ class App extends React.Component {
 
     this.state = {
       fluid: false,
+      currentComponent: props.currentComponent || 'home',
     };
   }
 
-  componentDidMount() {
-    const activeComponent = 'item';
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { currentComponent } = prevProps;
+    if (currentComponent) {
+      this.fluid(currentComponent)
+    }
+  }
+
+  fluid = (currentComponent) => {
     const fluidComps = ['item'];
 
     const { fluid } = this.state;
 
-    if (fluidComps.includes(activeComponent) && fluid === false) {
+    if (fluidComps.includes(currentComponent) && fluid === false) {
       this.setState({ fluid: true });
-    } else if(!fluidComps.includes(activeComponent) && fluid === true) {
+    } else if(!fluidComps.includes(currentComponent) && fluid === true) {
       this.setState({ fluid: false });
     }
   }
@@ -65,4 +74,8 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const mapStateToProps = (state) => ({
+  currentComponent: state.common.currentComponent,
+});
+
+export default connect(mapStateToProps)(App);

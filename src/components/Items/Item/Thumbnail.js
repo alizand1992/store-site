@@ -1,6 +1,5 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
-import Figure from 'react-bootstrap/Figure';
 
 class Thumbnail extends React.Component {
   render() {

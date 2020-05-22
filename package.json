@@ -13,8 +13,10 @@
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
+    "redux": "^4.0.5",
     "uuid": "^8.1.0"
   },
   "scripts": {
@@ -43,6 +45,7 @@
     "enzyme-adapter-react-16": "^1.15.2",
     "jest": "24.9.0",
     "jest-enzyme": "^7.1.2",
-    "react-test-renderer": "^16.13.1"
+    "react-test-renderer": "^16.13.1",
+    "redux-devtools-extension": "^2.13.8"
   }
 }

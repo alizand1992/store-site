@@ -7,6 +7,15 @@ h1 {
     font-size: 48px;
 }
 
+button.add {
+    width: 100%;
+    height: 100%;
+}
+
+i.md-48 {
+    font-size: 48px;
+}
+
 span.menu-item {
     font-size: 28px;
 }

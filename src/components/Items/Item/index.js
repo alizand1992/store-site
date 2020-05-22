@@ -1,14 +1,18 @@
 import React from 'react';
-import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import { connect } from 'react-redux';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { v1 as uuidv1 } from 'uuid';
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-import { bindActionCreators } from 'redux';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+
 import { setCurrentComponent } from '../../../actions/common';
+import Preview from './Preview';
 
 class Item extends React.Component {
   constructor(props) {
@@ -41,7 +45,9 @@ class Item extends React.Component {
     const { files } = this.state;
 
     // merge file list
-    files.push(newFiles);
+    for(let i = 0; i < newFiles.length; i++) {
+      files.push(newFiles.item(i));
+    }
 
     this.setState({
       percent: 0,
@@ -65,7 +71,7 @@ class Item extends React.Component {
   }
 
   render() {
-    const { fields, percent } = this.state;
+    const { fields, files, percent } = this.state;
 
     return (
       <Row>
@@ -87,7 +93,9 @@ class Item extends React.Component {
             }
           </div>
           <div>
-            preview
+            {files.map((file) => {
+              return <Preview file={file} key={uuidv1()} />;
+            })}
           </div>
         </Col>
         <Col lg={6} md={12}>

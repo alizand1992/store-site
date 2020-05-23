@@ -9,15 +9,12 @@ export const getItems = (callback) => {
     });
 }
 
-export const saveItem = (data, callback) => {
+export const saveItem = (formData, callback) => {
   axios.get('/api/application/new')
     .then((res) => {
       const { authenticity_token } = res.data;
 
-      let formData = new FormData();
       formData.append('authenticity_token', authenticity_token);
-      formData.append('file', data);
-      formData.append('file_name', 'some_name')
 
       axios({
         method: 'POST',
@@ -34,5 +31,13 @@ export const saveItem = (data, callback) => {
     }).catch((err) => {
       callback(err);
     });
+}
 
+export const getItem = (id, callback) => {
+  axios.get(`/api/items/${id}`)
+    .then((res) => {
+      callback(res);
+    }).catch((err) => {
+      callback(err);
+    });
 }

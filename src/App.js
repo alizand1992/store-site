@@ -36,15 +36,10 @@ class App extends React.Component {
           <Menu />
           <br />
           <Switch>
-            <Route path="/items">
-              <Items />
-            </Route>
-            <Route path={['/item', '/item/:id']}>
-              <Item setFluid={this.setFuild} />
-            </Route>
-            <Route path={['/', 'gallery']}>
-              <Gallery />
-            </Route>
+            <Route path="/items" component={Items} />
+            <Route path={'/item/:id'} component={Item} />
+            <Route path={'/item'} component={Item} />
+            <Route path={['/', 'gallery']} component={Gallery} />
           </Switch>
         </Container>
       </Router>

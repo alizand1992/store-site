@@ -21,7 +21,7 @@ class App extends React.Component {
     };
   }
 
-  setFuild = (fluid = false) => {
+  setFluid = (fluid = false) => {
     this.setState({ fluid })
   }
 
@@ -31,14 +31,17 @@ class App extends React.Component {
     return (
       <Router>
         <Container fluid={fluid}>
-          <br />
-          <br />
+          {!fluid &&
+            <React.Fragment>
+              <br />
+              <br />
+            </React.Fragment>
+          }
           <Menu />
           <br />
           <Switch>
             <Route path="/items" component={Items} />
-            <Route path={'/item/:id'} component={Item} />
-            <Route path={'/item'} component={Item} />
+            <Route path={['/item/:id','/item']} render={(props) => <Item {...props} setFluid={this.setFluid}/>} />
             <Route path={['/', 'gallery']} component={Gallery} />
           </Switch>
         </Container>

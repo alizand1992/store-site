@@ -26,10 +26,10 @@ export const saveItem = (formData, callback) => {
       }).then((res) => {
         callback(res);
       }).catch((err) => {
-        callback(err);
+        console.log(err)
       });
     }).catch((err) => {
-      callback(err);
+      console.log(err)
     });
 }
 

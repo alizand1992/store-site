@@ -14,7 +14,7 @@ import { getItem, saveItem } from '../../../util/ajax/Item';
 class Item extends React.Component {
   constructor(props) {
     super(props);
-    // props.setFluid(true);
+    props.setFluid(true);
 
     this.state = {
       name: '',
@@ -104,6 +104,10 @@ class Item extends React.Component {
     });
   }
 
+  getFields = (fields) => {
+    console.log(fields);
+  }
+
   render() {
     const { fields, files, name, show_in_gallery } = this.state;
 
@@ -130,7 +134,7 @@ class Item extends React.Component {
               </Col>
             </Row>
 
-            <CustomFields fields={fields} />
+            <CustomFields fields={fields} getFields={this.getFields} />
 
             <Row className="field-row">
               <Col sm={5}>

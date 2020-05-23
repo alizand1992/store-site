@@ -39,6 +39,7 @@ div.drop-zone {
     color: darkgrey;
     margin-bottom: 20px;
     z-index: 1000;
+    cursor: pointer;
 }
 
 div.preview-container {

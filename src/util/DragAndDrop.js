@@ -6,6 +6,8 @@ class DragAndDrop extends React.Component {
   constructor(props) {
     super(props);
 
+    this.uploadInputRef = React.createRef();
+
     this.state = {
       displayLoading: false,
     };
@@ -39,11 +41,16 @@ class DragAndDrop extends React.Component {
     e.preventDefault();
   }
 
+  openUploadWindow = (e) => {
+    this.uploadInputRef.current.click();
+  }
+
   render() {
     const { displayLoading } = this.state;
     return (
       <div onDragOver={(e) => this.drag(e)}
            onDragEnter={(e) => this.suppressEvent(e)}
+           onClick={(e) => this.openUploadWindow(e)}
            className="drop-zone" id="item-drop-zone">
         {!displayLoading &&
           <span style={{ display: 'inline-block' }}>
@@ -52,6 +59,12 @@ class DragAndDrop extends React.Component {
           </span>
         }
         {displayLoading && <CircularProgressBar />}
+        <input style={{ display: 'none' }}
+               multiple={true}
+               accept="image/*"
+               type="file"
+               onChange={(e) => this.props.onFileDrop(this.uploadInputRef.current.files)}
+               ref={this.uploadInputRef} />
       </div>
     )
   }

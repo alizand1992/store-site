@@ -38,6 +38,6 @@ export const getItem = (id, callback) => {
     .then((res) => {
       callback(res);
     }).catch((err) => {
-      callback(err);
+      console.log(err)
     });
 }

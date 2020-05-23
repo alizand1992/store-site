@@ -1,14 +1,14 @@
 import React from 'react';
 
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
-import { v1 as uuidv1 } from 'uuid';
-
+import CustomFields from './CustomFields';
 import DragAndDrop from '../../../util/DragAndDrop';
 import Preview from './Preview';
-import Button from 'react-bootstrap/Button';
+
 import { getItem, saveItem } from '../../../util/ajax/Item';
 
 class Item extends React.Component {
@@ -30,22 +30,24 @@ class Item extends React.Component {
     if (this.props.match) {
       const { id } = this.props.match.params;
 
-      getItem(id, (res) => {
-        const { attrs, item } = res.data;
+      if (id) {
+        getItem(id, (res) => {
+          const { attrs, item } = res.data;
 
-        const fields = [
-          {
-            name: attrs.name,
-            value: attrs.value,
-          }
-        ];
+          const fields = [
+            {
+              name: attrs.name,
+              value: attrs.value,
+            }
+          ];
 
-        this.setState({
-          name: item.name,
-          show_in_gallery: item.show_in_gallery,
-          fields,
+          this.setState({
+            name: item.name,
+            show_in_gallery: item.show_in_gallery,
+            fields,
+          });
         });
-      });
+      }
     }
   }
 
@@ -128,27 +130,20 @@ class Item extends React.Component {
               </Col>
             </Row>
 
-            {fields.map((field) => {
-              const { name, value} = field;
-
-              return (
-                <Row className="field-row" key={uuidv1()}>
-                  <Col sm={12}>
-                    <Form.Label>{name}:</Form.Label>
-                    <Form.Control value={value} onChange={e => e.preventDefault()}/>
-                  </Col>
-                </Row>
-              );
-            })}
+            <CustomFields fields={fields} />
 
             <Row className="field-row">
-              <Col sm={6}>
+              <Col sm={5}>
                 <Form.Label>Field Name</Form.Label>
                 <Form.Control onChange={e => this.handleNewField(e, 'name')} />
               </Col>
-              <Col sm={6}>
+              <Col sm={5}>
                 <Form.Label>Value</Form.Label>
                 <Form.Control onChange={e => this.handleNewField(e, 'value')} />
+              </Col>
+              <Col sm={2} className="text-right">
+                <br />
+                <Button variant="success" style={{ marginTop: '7px'}}>Add</Button>
               </Col>
             </Row>
             <Row>

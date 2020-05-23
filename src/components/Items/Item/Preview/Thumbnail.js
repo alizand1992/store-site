@@ -29,12 +29,10 @@ class Thumbnail extends React.Component {
   }
 
   showInfo = () => {
-    console.log('showInfo');
     this.setState({ showInfo: true });
   }
 
   hideInfo = () => {
-    console.log('hideInfo');
     this.setState({ showInfo: false });
   }
 
@@ -51,8 +49,6 @@ class Thumbnail extends React.Component {
 
   render() {
     const { image, showInfo } = this.state;
-
-    console.log(showInfo);
 
     if (!image) {
       return <Spinner animation="border" />;

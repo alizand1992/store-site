@@ -32,19 +32,12 @@ class Item extends React.Component {
 
       if (id) {
         getItem(id, (res) => {
-          const { attrs, item } = res.data;
-
-          const fields = [
-            {
-              name: attrs.name,
-              value: attrs.value,
-            }
-          ];
+          const { item } = res.data;
 
           this.setState({
+            id,
             name: item.name,
             show_in_gallery: item.show_in_gallery,
-            fields,
           });
         });
       }
@@ -109,7 +102,8 @@ class Item extends React.Component {
   }
 
   render() {
-    const { fields, files, name, show_in_gallery } = this.state;
+    const { files, name, show_in_gallery } = this.state;
+    const { id } = this.props.match.params;
 
     return (
       <Form>
@@ -134,7 +128,7 @@ class Item extends React.Component {
               </Col>
             </Row>
 
-            <CustomFields fields={fields} getFields={this.getFields} />
+            <CustomFields itemId={id} getFields={this.getFields} />
 
             <Row className="field-row">
               <Col sm={5}>

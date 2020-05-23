@@ -34,6 +34,10 @@ span.menu-item {
     font-size: 28px;
 }
 
+label.editable {
+    cursor: pointer;
+}
+
 div.field-row {
     margin-bottom: 20px;
 }

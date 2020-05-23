@@ -21,11 +21,23 @@ class Field extends React.Component {
   }
 
   setName = (e) => {
-    this.setState({ name: e.target.value });
+    const { id, value } = this.state;
+    const name = e.target.value
+
+    this.setState({ name });
+    this.props.getField({
+      id, name, value
+    });
   }
 
   setValue = (e) => {
-    this.setState({ value: e.target.value });
+    const { id, name } = this.state;
+    const value = e.target.value;
+
+    this.setState({ value });
+    this.props.getField({
+      id, name, value
+    });
   }
 
   labelField = () => {
@@ -34,11 +46,7 @@ class Field extends React.Component {
     if (edit) {
       return <Form.Control value={name} onChange={this.setName} placeholder="Field Name"/>;
     } else {
-      return (
-        <Form.Label onClick={this.toggleEdit}>
-          {name}:
-        </Form.Label>
-      );
+      return <Form.Label className="editable" onClick={this.toggleEdit}>{name}:</Form.Label>;
     }
   }
 
@@ -50,7 +58,7 @@ class Field extends React.Component {
         <Row className="field-row">
           <Col sm={12}>
             {this.labelField()}
-            <Form.Control value={value} onChange={this.setValue}/>
+            <Form.Control value={value} onChange={this.setValue} />
           </Col>
         </Row>
       </div>

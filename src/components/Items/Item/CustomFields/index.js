@@ -4,13 +4,13 @@ import NewFields from './NewFields';
 
 class CustomFields extends React.Component {
   getFields = (fields) => {
-
+    console.log(fields)
   }
 
   render() {
     return (
       <React.Fragment>
-        <Fields fields={this.props.fields} getFields={this.getFields}/>
+        <Fields itemId={this.props.itemId} getFields={this.getFields}/>
         <NewFields />
       </React.Fragment>
     )

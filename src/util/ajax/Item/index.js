@@ -41,3 +41,12 @@ export const getItem = (id, callback) => {
       console.log(err)
     });
 }
+
+export const getItemAttributes = (item_id, callback) => {
+  axios.get(`/api//item_attributes//${item_id}`)
+    .then((res) => {
+      callback(res);
+    }).catch((err) => {
+    console.log(err)
+  });
+}

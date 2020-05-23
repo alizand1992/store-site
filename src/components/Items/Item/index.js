@@ -19,10 +19,9 @@ class Item extends React.Component {
     this.state = {
       name: '',
       show_in_gallery: false,
-      fields: [],
-      newField: {},
       files: [],
       fileList: null,
+      fields: [],
     }
   }
 
@@ -58,7 +57,8 @@ class Item extends React.Component {
 
   submit = (e) => {
     e.preventDefault();
-    const { fileList, name, newField, show_in_gallery } = this.state;
+    const { id } = this.props.match.params;
+    const { fileList, name, show_in_gallery, fields } = this.state;
 
     const formData = new FormData();
 
@@ -68,9 +68,10 @@ class Item extends React.Component {
       }
     }
 
+    formData.append('id', id);
     formData.append('name', name);
     formData.append('show_in_gallery', show_in_gallery);
-    formData.append('new_field', JSON.stringify(newField));
+    formData.append('fields', JSON.stringify(fields));
 
     saveItem(formData, (res) => {
       console.log(res);
@@ -86,19 +87,13 @@ class Item extends React.Component {
     this.setState({ show_in_gallery: !show_in_gallery });
   }
 
-  handleNewField = (e, attr) => {
-    const { newField } = this.state;
+  getFields = (combinedFields) => {
+    const { fields, newFields } = combinedFields;
 
-    this.setState({
-      newField: {
-        ...newField,
-        [attr]: e.target.value,
-      },
-    });
-  }
+    const updatedFields = Object.values(fields);
+    updatedFields.push(...newFields);
 
-  getFields = (fields) => {
-    console.log(fields);
+    this.setState({ fields: updatedFields });
   }
 
   render() {
@@ -130,20 +125,6 @@ class Item extends React.Component {
 
             <CustomFields itemId={id} getFields={this.getFields} />
 
-            <Row className="field-row">
-              <Col sm={5}>
-                <Form.Label>Field Name</Form.Label>
-                <Form.Control onChange={e => this.handleNewField(e, 'name')} />
-              </Col>
-              <Col sm={5}>
-                <Form.Label>Value</Form.Label>
-                <Form.Control onChange={e => this.handleNewField(e, 'value')} />
-              </Col>
-              <Col sm={2} className="text-right">
-                <br />
-                <Button variant="success" style={{ marginTop: '7px'}}>Add</Button>
-              </Col>
-            </Row>
             <Row>
               <Col className="text-right">
                 <Button onClick={e => this.submit(e)}>Save</Button>

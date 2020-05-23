@@ -22,14 +22,13 @@ class Fields extends React.Component {
         const { attrs } = res.data;
 
         if (Array.isArray(attrs)) {
-          attrs.forEach((attr) => {
-            fields[attr.id] = { ...attrs };
-          });
+          fields = {...attrs};
         } else {
           fields[attrs.id] = { ...attrs };
         }
 
         this.setState({ fields });
+        this.props.getFields(fields);
       });
     }
   }
@@ -45,6 +44,8 @@ class Fields extends React.Component {
 
   render() {
     const { fields } = this.state;
+
+    console.log(fields)
 
     return (
       <React.Fragment>

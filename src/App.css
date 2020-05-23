@@ -41,6 +41,35 @@ div.drop-zone {
     z-index: 1000;
 }
 
+div.preview-container {
+    width: 100%;
+    height: 250px;
+    border: 1px solid black;
+    overflow-y: scroll;
+}
+
+div.preview-thumbnail {
+    display: block;
+    width: 200px;
+    margin: 10px 0px 0px 15px;
+    float: left;
+}
+
+div.preview-thumbnail:hover {
+    cursor: pointer;
+}
+
+div.card-img-overlay {
+    padding: 10px 0px 0px 0px;
+}
+
+p.display-name {
+    background: black;
+    color: white;
+    padding-left: 10px;
+    opacity: 0.9;
+}
+
 @media (max-width: 768px) {
     span.menu-container {
         display: none;

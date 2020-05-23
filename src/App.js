@@ -1,8 +1,6 @@
 import React from 'react';
 import './App.css';
 
-import { connect } from 'react-redux';
-
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // Bootstrap
@@ -20,27 +18,11 @@ class App extends React.Component {
 
     this.state = {
       fluid: false,
-      currentComponent: props.currentComponent || 'home',
     };
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    const { currentComponent } = prevProps;
-    if (currentComponent) {
-      this.fluid(currentComponent)
-    }
-  }
-
-  fluid = (currentComponent) => {
-    const fluidComps = ['item'];
-
-    const { fluid } = this.state;
-
-    if (fluidComps.includes(currentComponent) && fluid === false) {
-      this.setState({ fluid: true });
-    } else if(!fluidComps.includes(currentComponent) && fluid === true) {
-      this.setState({ fluid: false });
-    }
+  setFuild = (fluid = false) => {
+    this.setState({ fluid })
   }
 
   render() {
@@ -49,12 +31,8 @@ class App extends React.Component {
     return (
       <Router>
         <Container fluid={fluid}>
-          {!fluid &&
-            <React.Fragment>
-              <br />
-              <br />
-            </React.Fragment>
-          }
+          <br />
+          <br />
           <Menu />
           <br />
           <Switch>
@@ -62,7 +40,7 @@ class App extends React.Component {
               <Items />
             </Route>
             <Route path={['/item', '/item/:id']}>
-              <Item />
+              <Item setFluid={this.setFuild} />
             </Route>
             <Route path={['/', 'gallery']}>
               <Gallery />
@@ -74,8 +52,4 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  currentComponent: state.common.currentComponent,
-});
-
-export default connect(mapStateToProps)(App);
+export default App;

@@ -4,10 +4,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 const rootReducer = combineReducers({
   common,
-})
+});
 
 export const store = createStore(
   rootReducer,
-  composeWithDevTools()
+  {},
+  composeWithDevTools(),
 );
 

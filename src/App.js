@@ -41,7 +41,7 @@ class App extends React.Component {
           <br />
           <Switch>
             <Route path="/items" component={Items} />
-            <Route path={['/item/:id','/item']} render={(props) => <Item {...props} setFluid={this.setFluid}/>} />
+            <Route exact path={['/item/:id', '/item/']} render={(props) => <Item {...props} setFluid={this.setFluid}/>} />
             <Route path={['/', 'gallery']} component={Gallery} />
           </Switch>
         </Container>

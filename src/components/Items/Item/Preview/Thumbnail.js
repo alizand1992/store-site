@@ -16,7 +16,7 @@ class Thumbnail extends React.Component {
   componentDidMount() {
     const { file } = this.props;
 
-    console.log(file)
+    console.log(file.name)
 
     if (file) {
       let blob = file;
@@ -55,6 +55,8 @@ class Thumbnail extends React.Component {
 
   render() {
     const { image, showInfo } = this.state;
+
+    console.log(image)
 
     if (!image) {
       return (

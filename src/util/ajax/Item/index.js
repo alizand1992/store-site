@@ -19,7 +19,7 @@ export const saveItem = (formData, callback) => {
       let method = 'POST';
       let url = '/api/items';
 
-      if (formData.get('id') !== undefined) {
+      if (formData.get('id') !== null && formData.get('id') !== undefined) {
         method = 'PUT';
         url += `/${formData.get('id')}`;
       }

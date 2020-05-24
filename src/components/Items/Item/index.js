@@ -1,7 +1,5 @@
 import React from 'react';
 
-import axios from 'axios';
-
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -12,6 +10,7 @@ import DragAndDrop from '../../../util/DragAndDrop';
 import Preview from './Preview';
 
 import { getItem, saveItem } from '../../../util/ajax/Item';
+import Alert from 'react-bootstrap/Alert';
 
 class Item extends React.Component {
   constructor(props) {
@@ -19,80 +18,80 @@ class Item extends React.Component {
     props.setFluid(true);
 
     this.state = {
+      id: props.match.params.id,
       name: '',
       show_in_gallery: false,
-      files: [],
+      errors: {},
+      inMemoryFiles: [],
       fields: [],
     }
   }
 
   componentDidMount() {
-    if (this.props.match) {
-      const { id } = this.props.match.params;
+    const { id } = this.state;
 
-      if (id) {
-        getItem(id, (res) => {
-          const { item, images } = res.data;
-
-          images.forEach((image) => {
-            const url = image.url.replace('http://localhost:3000', 'http://localhost:5000');
-            axios.get(url, {
-              responseType: 'blob',
-            }).then((res) => {
-              const { files } = this.state;
-              const file = res.data;
-
-              file.name = image.name
-
-              files.push(file);
-              this.setState({ files });
-            }).catch((err) => {
-              console.log(err);
-            });
-          });
+    if (id && !isNaN(id)) {
+      getItem(id, (res) => {
+        if (res.data.no_content) {
+          this.setState({ noContent: true });
+        } else {
+          const { item } = res.data;
 
           this.setState({
             id,
             name: item.name,
             show_in_gallery: item.show_in_gallery,
           });
-        });
-      }
+        }
+      });
     }
   }
 
   onFileDrop = (newFiles) => {
-    const { files } = this.state;
+    const { inMemoryFiles } = this.state;
 
     for (let i = 0; i < newFiles.length; i++) {
-      files.push(newFiles.item(i));
+      inMemoryFiles.push(newFiles.item(i));
     }
 
-    this.setState({ files });
+    this.setState({ inMemoryFiles });
   }
 
   submit = (e) => {
     e.preventDefault();
-    const { id } = this.props.match.params;
-    const { files, name, show_in_gallery, fields } = this.state;
+    const { errors, id, inMemoryFiles, name, show_in_gallery, fields } = this.state;
+
+    if (name.trim() === '') {
+      errors['name'] = ['Item name is required.'];
+      this.setState({ errors });
+      return;
+    }
 
     const formData = new FormData();
 
-    files.forEach((file, index) => {
+    inMemoryFiles.forEach((file, index) => {
       formData.append(`images[${index}]`, file);
     })
 
-    formData.append('id', id);
+    if (!this.state.noContent && id !== 'new' && id) {
+      formData.append('id', id);
+    }
+
     formData.append('name', name);
     formData.append('show_in_gallery', show_in_gallery);
     formData.append('fields', JSON.stringify(fields));
 
     saveItem(formData, (res) => {
-      console.log(res);
+      if (!id) {
+        this.props.history.push(`/item/${res.data.id}`)
+      }
     });
   }
 
   handleNameChange = (e) => {
+    const { errors } = this.state;
+    delete errors.name;
+
     this.setState({ name: e.target.value });
   }
 
@@ -110,16 +109,38 @@ class Item extends React.Component {
     this.setState({ fields: updatedFields });
   }
 
+  renderErr = () => {
+    const { errors } = this.state;
+
+    const values = Object.values(errors)
+
+    if (values.length !== 0) {
+      return (
+        <Row>
+          <Col lg={{ span: 6, offset: 3 }} md={12}>
+            <Alert variant="danger">
+              {values.map((err) => {
+                return err.map(message => <span>{message} <br /></span>);
+              })}
+            </Alert>
+          </Col>
+        </Row>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
-    const { files, name, show_in_gallery } = this.state;
-    const { id } = this.props.match.params;
+    const { id, inMemoryFiles, name, show_in_gallery } = this.state;
 
     return (
       <Form>
+        {this.renderErr()}
         <Row>
           <Col lg={6} md={12}>
             <DragAndDrop onFileDrop={this.onFileDrop} />
-            <Preview files={files} />
+            <Preview itemId={id} inMemoryFiles={inMemoryFiles} />
           </Col>
           <Col lg={6} md={12}>
             <Row className="field-row">

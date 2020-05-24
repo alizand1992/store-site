@@ -1,17 +1,11 @@
 import axios from 'axios';
 
-export const getItemImages = (itemId) => {
-  const blobs = [];
-
+export const getItemImageData = (itemId, callback) => {
   axios.get(`/api/items/${itemId}/images`)
     .then((res) => {
       const { images } = res.data;
 
-      images.forEach((image) => {
-        getImage(image, (blob) => {
-          blobs.push(blob);
-        });
-      });
+      callback(images);
     }).catch((err) => {
       console.log(err);
     });
@@ -23,8 +17,7 @@ export const getImage = (image, callback) => {
     responseType: 'blob',
   }).then((res) => {
     const file = res.data;
-
-    file.name = image.name
+    console.log('get image', res)
     callback(file);
   }).catch((err) => {
     console.log(err);

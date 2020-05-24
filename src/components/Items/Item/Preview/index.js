@@ -3,13 +3,14 @@ import React from 'react';
 import { v1 as uuidv1 } from 'uuid';
 
 import Thumbnail from './Thumbnail';
-import { getItemImages } from '../../../../util/ajax/Preview';
+import { getItemImageData } from '../../../../util/ajax/Preview';
 
 class Preview extends React.Component{
   constructor(props) {
     super(props);
 
     this.state = {
+      image_data: [],
       files: [],
     };
   }
@@ -18,22 +19,20 @@ class Preview extends React.Component{
     const { itemId } = this.props;
 
     if (itemId && !isNaN(itemId)) {
-
+      getItemImageData(itemId, (image_data) => {
+        this.setState({ image_data })
+      });
     }
-
   }
 
   render() {
-    const { files } = this.state
-
-    console.log('render', files)
+    const { image_data } = this.state
 
     return (
       <div className="preview-container">
-        {files.map((file) => {
-          console.log(file)
+        {image_data.map((data) => {
           return (
-            <Thumbnail file={file} key={uuidv1()} />
+            <Thumbnail data={data} key={uuidv1()} />
           );
         })}
       </div>

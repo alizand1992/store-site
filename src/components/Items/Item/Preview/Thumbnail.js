@@ -1,6 +1,7 @@
 import React from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 import Card from 'react-bootstrap/Card';
+import { getImage } from '../../../../util/ajax/Preview';
 
 class Thumbnail extends React.Component {
   constructor(props) {
@@ -14,23 +15,20 @@ class Thumbnail extends React.Component {
   }
 
   componentDidMount() {
-    const { file } = this.props;
+    const { data, data: { name} } = this.props;
 
-    console.log(file.name)
-
-    if (file) {
-      let blob = file;
-      if (file.image) {
-        blob = file.image
-      }
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(blob);
-      fileReader.onload = () => {
-        this.setState({
-          name: file.name,
-          image: fileReader.result
-        });
-      }
+    // Coming from the server
+    if (data.url) {
+      getImage(data, (blob) => {
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(blob);
+          fileReader.onload = () => {
+            this.setState({
+              name,
+              image: fileReader.result
+            });
+          }
+      });
     }
   }
 

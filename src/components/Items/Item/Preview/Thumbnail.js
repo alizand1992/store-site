@@ -16,9 +16,15 @@ class Thumbnail extends React.Component {
   componentDidMount() {
     const { file } = this.props;
 
+    console.log(file)
+
     if (file) {
+      let blob = file;
+      if (file.image) {
+        blob = file.image
+      }
       const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
+      fileReader.readAsDataURL(blob);
       fileReader.onload = () => {
         this.setState({
           name: file.name,
@@ -51,7 +57,12 @@ class Thumbnail extends React.Component {
     const { image, showInfo } = this.state;
 
     if (!image) {
-      return <Spinner animation="border" />;
+      return (
+        <div className="preview-thumbnail text-center"
+             style={{ paddingTop: '40px' }}>
+          <Spinner animation="border" />
+        </div>
+      );
     }
 
     return (

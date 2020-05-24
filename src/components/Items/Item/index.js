@@ -1,5 +1,7 @@
 import React from 'react';
 
+import axios from 'axios';
+
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
@@ -20,7 +22,6 @@ class Item extends React.Component {
       name: '',
       show_in_gallery: false,
       files: [],
-      fileList: null,
       fields: [],
     }
   }
@@ -31,7 +32,24 @@ class Item extends React.Component {
 
       if (id) {
         getItem(id, (res) => {
-          const { item } = res.data;
+          const { item, images } = res.data;
+
+          images.forEach((image) => {
+            const url = image.url.replace('http://localhost:3000', 'http://localhost:5000');
+            axios.get(url, {
+              responseType: 'blob',
+            }).then((res) => {
+              const { files } = this.state;
+              const file = res.data;
+
+              file.name = image.name
+
+              files.push(file);
+              this.setState({ files });
+            }).catch((err) => {
+              console.log(err);
+            });
+          });
 
           this.setState({
             id,
@@ -46,8 +64,6 @@ class Item extends React.Component {
   onFileDrop = (newFiles) => {
     const { files } = this.state;
 
-    this.setState({ fileList: newFiles });
-
     for (let i = 0; i < newFiles.length; i++) {
       files.push(newFiles.item(i));
     }
@@ -58,15 +74,13 @@ class Item extends React.Component {
   submit = (e) => {
     e.preventDefault();
     const { id } = this.props.match.params;
-    const { fileList, name, show_in_gallery, fields } = this.state;
+    const { files, name, show_in_gallery, fields } = this.state;
 
     const formData = new FormData();
 
-    if (fileList) {
-      for (let i = 0; i < fileList.length; i++) {
-        formData.append(`file[${i}]`, fileList.item(i));
-      }
-    }
+    files.forEach((file, index) => {
+      formData.append(`images[${index}]`, file);
+    })
 
     formData.append('id', id);
     formData.append('name', name);

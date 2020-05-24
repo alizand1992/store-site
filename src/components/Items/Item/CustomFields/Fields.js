@@ -45,8 +45,6 @@ class Fields extends React.Component {
   render() {
     const { fields } = this.state;
 
-    console.log(fields)
-
     return (
       <React.Fragment>
         {Object.values(fields).map((field) => {

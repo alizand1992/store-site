@@ -16,9 +16,17 @@ export const saveItem = (formData, callback) => {
 
       formData.append('authenticity_token', authenticity_token);
 
+      let method = 'POST';
+      let url = '/api/items';
+
+      if (formData.get('id') !== undefined) {
+        method = 'PUT';
+        url += `/${formData.get('id')}`;
+      }
+
       axios({
-        method: 'POST',
-        url: '/api/items',
+        method,
+        url,
         data: formData,
         headers: {
           'Content-Type': `multipart/form-data; boundary=${123}`
@@ -43,7 +51,7 @@ export const getItem = (id, callback) => {
 }
 
 export const getItemAttributes = (item_id, callback) => {
-  axios.get(`/api//item_attributes//${item_id}`)
+  axios.get(`/api/item_attributes/${item_id}`)
     .then((res) => {
       callback(res);
     }).catch((err) => {

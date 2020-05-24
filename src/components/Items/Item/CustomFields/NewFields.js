@@ -15,6 +15,16 @@ class NewFields extends React.Component {
     };
   }
 
+  fieldsWithAdd = (newFields) => {
+    const {name, value} = this.state;
+
+    if (name.trim() !== '') {
+      newFields.push({ name, value });
+    }
+
+    return newFields;
+  }
+
   handleUpdate = (e, field, index) => {
     const { newFields } = this.state;
 
@@ -24,18 +34,34 @@ class NewFields extends React.Component {
     };
 
     this.setState({ newFields })
-    this.props.getFields(newFields);
+
+    this.props.getFields(this.fieldsWithAdd(newFields));
   }
 
   removeField = (e, index) => {
     const newFields = this.state.newFields.filter((_f, i) => i !== index)
+
     this.setState({ newFields });
 
-    this.props.getFields(newFields)
+    this.props.getFields(this.fieldsWithAdd(newFields));
   }
 
   handleNewField = (e, field) => {
-    this.setState({ [field]: e.target.value });
+    this.setState({
+      [field]: e.target.value.trim()
+    },
+      () => {
+        const { newFields, name, value } = this.state;
+
+        if (field === 'name' || name !== '') {
+          const newFieldsWithAdd = newFields.filter(f => f);
+          newFieldsWithAdd.push({name, value})
+          this.props.getFields(newFieldsWithAdd);
+        }
+      }
+    );
+
+
   }
 
   addField = () => {

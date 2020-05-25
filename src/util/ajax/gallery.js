@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-export const getThumbnails = () => {
+export const getThumbnails = (callback) => {
   axios.get('/api/gallery')
     .then((res) => {
-      console.log(res);
+      callback(res);
     }).catch((err) => {
       console.log(err);
     });

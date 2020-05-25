@@ -12,8 +12,6 @@ button.add {
     height: 100%;
 }
 
-
-
 i.md-16 {
     font-size: 16px;
 }
@@ -58,14 +56,18 @@ div.drop-zone {
 
 div.preview-container {
     width: 100%;
-    height: 250px;
+    height: 450px;
     border: 1px solid black;
     overflow-y: scroll;
+    border: 3px dashed darkgrey;
+    border-radius: 10px;
 }
 
 div.preview-thumbnail {
     display: block;
     width: 200px;
+    height: 200px;
+    overflow-y: hidden;
     margin: 10px 0px 0px 15px;
     float: left;
 }

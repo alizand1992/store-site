@@ -19,21 +19,21 @@ class Thumbnail extends React.Component {
 
     // Coming from the server
     if (inMemoryFile.url) {
-      if (inMemoryFile.url) {
-        getImage(inMemoryFile, (blob) => {
-          this.fileFromBlob(blob, inMemoryFile);
-        });
-      }
+      getImage(inMemoryFile, (blob) => {
+        this.fileFromBlob(blob, inMemoryFile);
+      });
     } else {
       this.fileFromBlob(inMemoryFile, { name: inMemoryFile.name })
     }
   }
+
 
   fileFromBlob = (blob, data) => {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(blob);
     fileReader.onload = () => {
       this.setState({
+        id: data.id,
         name: data.name,
         image: fileReader.result
       });

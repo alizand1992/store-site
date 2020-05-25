@@ -2,7 +2,7 @@ import { combineReducers, createStore } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import common from './reducers/common';
-import item from './reducers/item';
+import item from './reducers/Item';
 
 const rootReducer = combineReducers({
   common,

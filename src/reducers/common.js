@@ -6,7 +6,14 @@ function common(state = {}, action) {
       return {
         ...state,
         currentComponent: action.component,
-      }
+      };
+
+    case ActionTypes.SET_SITE_PROPERTIES:
+      return {
+        ...state,
+        properties: action.properties,
+      };
+
     default:
       return state;
   }

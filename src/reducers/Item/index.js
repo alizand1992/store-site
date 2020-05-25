@@ -1,4 +1,4 @@
-import { ItemActionTypes } from '../actions/Item';
+import { ItemActionTypes } from '../../actions/Item';
 
 function item(state = {}, action) {
   switch (action.type) {

@@ -14,6 +14,7 @@ import Item from './components/Items/Item/Show';
 import Information from './components/Items/Item/New/Information';
 import Attributes from './components/Items/Item/New/Attributes';
 import Images from './components/Items/Item/New/Images';
+import SiteProperties from './components/Common/SiteProperties';
 
 class App extends React.Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class App extends React.Component {
 
     return (
       <Router>
+        <SiteProperties />
         <Container fluid={fluid}>
           {!fluid &&
             <React.Fragment>

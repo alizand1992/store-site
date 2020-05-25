@@ -25,6 +25,7 @@ class Information extends React.Component {
 
   render() {
     const { id, name, attrs } = this.state;
+    const { displayFieldNames } = this.props;
 
     if (!id || !name) {
       return <LoadingPage />
@@ -33,9 +34,11 @@ class Information extends React.Component {
     return (
       <React.Fragment>
         <Row>
-          <Col>
-            <h2>Name:</h2>
-          </Col>
+          {displayFieldNames &&
+            <Col>
+              <h2>Name:</h2>
+            </Col>
+          }
           <Col>
             <h2>{name}</h2>
           </Col>
@@ -43,9 +46,11 @@ class Information extends React.Component {
         {attrs.map((attr) => {
           return (
             <Row key={attr.id}>
-              <Col>
-                {attr.name}:
-              </Col>
+              {displayFieldNames &&
+                <Col>
+                  {attr.name}:
+                </Col>
+              }
               <Col>
                 {attr.value}
               </Col>

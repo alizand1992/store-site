@@ -8,6 +8,7 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
 import { saveAttributes } from '../../../../../util/ajax/Items/Item/New';
+import { getItemWithAttributes } from '../../../../../util/ajax/Items/Item/Show';
 
 class Attributes extends React.Component {
   constructor(props) {
@@ -23,9 +24,17 @@ class Attributes extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      id: this.props.match.params.id,
-    });
+    const { id } = this.props.match.params;
+
+    if (id) {
+      getItemWithAttributes(id, (res) => {
+        console.log(res)
+        this.setState({
+          id: id,
+          newFields: res.data.attrs,
+        })
+      })
+    }
   }
 
   handleUpdate = (e, field, index) => {
@@ -81,7 +90,7 @@ class Attributes extends React.Component {
       return;
     }
 
-    const attrs = newFields.filter(field => true);
+    const attrs = newFields.filter(_f => true);
 
     if (name.trim() !== '') {
       attrs.push({ name, value });

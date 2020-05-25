@@ -22,8 +22,6 @@ class Information extends React.Component {
   componentDidMount() {
     const { id } = this.props.match.params;
 
-    console.log(id)
-
     if (id) {
       getItemWithAttributes(id, (res) => {
         console.log(res)

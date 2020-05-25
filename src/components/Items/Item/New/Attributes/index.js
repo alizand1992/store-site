@@ -3,12 +3,17 @@ import React from 'react';
 import { LoadingPage } from '../../../../Common/LoadingPage';
 
 import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
+
 import { saveAttributes } from '../../../../../util/ajax/Items/Item/New';
 import { getItemWithAttributes } from '../../../../../util/ajax/Items/Item/Show';
+
+const UP = 1;
+const DOWN = 0;
 
 class Attributes extends React.Component {
   constructor(props) {
@@ -103,6 +108,28 @@ class Attributes extends React.Component {
     });
   }
 
+  swap = (arr, i, j) => {
+    const temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+
+    return arr;
+  }
+
+  reorder = (index, direction) => {
+    const { newFields } = this.state;
+
+    if ((direction === UP && index === 0) || (direction === DOWN && index === newFields.length - 1)) {
+      return;
+    }
+
+    const j = direction === UP ? index - 1 : index + 1;
+    newFields[index].order = j;
+    newFields[j].order = index
+
+    this.setState({ newFields: this.swap(newFields, index, j) });
+}
+
   render() {
     const { error, newFields, name, value, id } = this.state;
 
@@ -137,7 +164,17 @@ class Attributes extends React.Component {
 
           return (
             <Row className="field-row" key={index}>
-              <Col md={{ span: 4, offset: 1 }} sm={5}>
+              <Col md={1}>
+                <ButtonGroup vertical>
+                  <Button size="small" variant="outline-success" onClick={e => this.reorder(index, UP)}>
+                    <i className="material-icons md-16">expand_less</i>
+                  </Button>
+                  <Button size="small" variant="outline-danger" onClick={e => this.reorder(index, DOWN)}>
+                    <i className="material-icons md-16">expand_more</i>
+                  </Button>
+                </ButtonGroup>
+              </Col>
+              <Col md={{ span: 4 }} sm={4}>
                 <Form.Label>Field Name</Form.Label>
                 <Form.Control value={name} onChange={e => this.handleUpdate(e, 'name', index)} />
               </Col>

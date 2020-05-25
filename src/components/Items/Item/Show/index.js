@@ -12,23 +12,29 @@ class Item extends React.Component {
   constructor(props) {
     super(props);
 
-    let displayFieldNames = true;
-
-    if (this.props.property) {
-      displayFieldNames = this.props.properties.filter(prop => prop.name === DISPLAY_FIELD_NAMES)[0].value === '1';
-    }
-
     this.state = {
       id: props.match.params.id,
-      displayFieldNames,
+      displayFieldNames: false,
+    }
+  }
+
+  componentDidMount() {
+    const { properties } = this.props;
+
+    if (properties) {
+      this.setDisplayFieldName(properties)
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps === undefined || prevProps.properties !== this.props.properties) {
-      const displayFieldNames = this.props.properties.filter(prop => prop.name === DISPLAY_FIELD_NAMES)[0].value === '1';
-      this.setState({ displayFieldNames });
+    if (prevProps.properties === undefined || prevProps.properties !== this.props.properties) {
+      this.setDisplayFieldName(this.props.properties)
     }
+  }
+
+  setDisplayFieldName = (properties) => {
+    const displayFieldNames = properties.filter(prop => prop.name === DISPLAY_FIELD_NAMES)[0].value === '1';
+    this.setState({ displayFieldNames });
   }
 
   render() {

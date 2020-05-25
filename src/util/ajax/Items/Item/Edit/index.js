@@ -1,0 +1,22 @@
+import axios from 'axios';
+
+export const updateItem = (data, callback) => {
+  axios.get('/api/application/new')
+    .then((res) => {
+      const { authenticity_token } = res.data;
+
+      axios.put(
+        `/api/items/${data.id}`,
+        {
+          ...data,
+          authenticity_token,
+        }
+      ).then((res) => {
+        callback(res);
+      }).catch((err) => {
+
+      });
+    }).catch((err) => {
+
+  });
+};

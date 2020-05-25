@@ -63,30 +63,6 @@ div.preview-container {
     border-radius: 10px;
 }
 
-div.preview-thumbnail {
-    display: block;
-    width: 200px;
-    height: 200px;
-    overflow-y: hidden;
-    margin: 10px 0px 0px 15px;
-    float: left;
-}
-
-div.preview-thumbnail:hover {
-    cursor: pointer;
-}
-
-div.card-img-overlay {
-    padding: 10px 0px 0px 0px;
-}
-
-p.display-name {
-    background: black;
-    color: white;
-    padding-left: 10px;
-    opacity: 0.9;
-}
-
 @media (max-width: 768px) {
     span.menu-container {
         display: none;

@@ -7,12 +7,14 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
+import { saveAttributes } from '../../../../../util/ajax/Item';
 
 class Attributes extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      id: false,
       error: false,
       newFields: [],
       name: '',
@@ -48,16 +50,6 @@ class Attributes extends React.Component {
   handleNewField = (e, field) => {
     this.setState({
         [field]: e.target.value.trim()
-      },
-      () => {
-        const { newFields, name, value } = this.state;
-
-        if (field === 'name' || name !== '') {
-          const newFieldsWithAdd = newFields.filter(f => f);
-          newFieldsWithAdd.push({name, value})
-          const error = newFieldsWithAdd.filter(field => field.name.trim() === '').length !== 0;
-          this.setState({ error })
-        }
       }
     );
   }
@@ -79,8 +71,27 @@ class Attributes extends React.Component {
     });
   }
 
-  saveAttributes = () => {
+  submit = () => {
+    const { id, name, value, newFields } = this.state;
 
+    const error = newFields.filter(field => field.name.trim() === '').length !== 0;
+
+    if (error || id === null) {
+      this.setState({ error });
+      return;
+    }
+
+    const attrs = newFields.filter(field => true);
+
+    if (name.trim() !== '') {
+      attrs.push({ name, value });
+    }
+
+    saveAttributes({ item_id: id, attrs: attrs }, (res) => {
+      if (res.data.success) {
+        this.props.history.push(`/item/new/${id}/images`);
+      }
+    });
   }
 
   render() {
@@ -99,12 +110,18 @@ class Attributes extends React.Component {
 
     return (
       <React.Fragment>
-        <Toast style={toastStyle}
-                onClose={() => this.setState({ error: false })}
-                show={error}>
-          <Toast.Header><strong className="mr-auto">Error</strong></Toast.Header>
-          <Toast.Body>Name cannot be empty!</Toast.Body>
-        </Toast>
+        <div style={toastStyle}>
+          <Toast onClose={() => this.setState({ error: false })}
+                 show={error && id}>
+            <Toast.Header><strong className="mr-auto">Error</strong></Toast.Header>
+            <Toast.Body>Name cannot be empty!</Toast.Body>
+          </Toast>
+          <Toast onClose={() => this.setState({ error: false })}
+                 show={!id}>
+            <Toast.Header><strong className="mr-auto">Error</strong></Toast.Header>
+            <Toast.Body>There was an error saving attributes!</Toast.Body>
+          </Toast>
+        </div>
 
         {newFields.map((field, index) => {
           const { name, value } = field;
@@ -142,7 +159,7 @@ class Attributes extends React.Component {
         </Row>
         <Row>
           <Col md={{ span: 6, offset: 4 }} sm={12} className="text-right">
-            <Button onClick={this.saveAttributes}>Save</Button>
+            <Button onClick={this.submit}>Save</Button>
           </Col>
         </Row>
 

@@ -29,15 +29,7 @@ class Item extends React.Component {
     }
   }
 
-  onFileDrop = (newFiles) => {
-    const { inMemoryFiles } = this.state;
 
-    for (let i = 0; i < newFiles.length; i++) {
-      inMemoryFiles.push(newFiles.item(i));
-    }
-
-    this.setState({ inMemoryFiles });
-  }
 
   submit = (e) => {
     e.preventDefault();
@@ -71,21 +63,6 @@ class Item extends React.Component {
     });
   }
 
-  getFields = (combinedFields) => {
-    const { fields, newFields } = combinedFields;
-
-    const updatedFields = Object.values(fields);
-    updatedFields.push(...newFields);
-
-    this.setState({ fields: updatedFields });
-  }
-
-  getGeneralInfo = (generalInfo) => {
-    this.setState({
-      name: generalInfo.name,
-      show_in_gallery: generalInfo.show_in_gallery,
-    })
-  }
 
   renderErr = () => {
     const { errors } = this.state;
@@ -114,7 +91,22 @@ class Item extends React.Component {
 
     return (
       <Form>
+        {this.renderErr()}
+        <Row>
+          <Col lg={6} md={12}>
+            <DragAndDrop onFileDrop={this.onFileDrop} />
+            <Preview itemId={id} files={inMemoryFiles} />
+          </Col>
+          <Col lg={6} md={12}>
 
+
+            <Row>
+              <Col className="text-right">
+                <Button onClick={e => this.submit(e)}>Save</Button>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
       </Form>
     );
   }

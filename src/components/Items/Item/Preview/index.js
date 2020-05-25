@@ -3,47 +3,50 @@ import React from 'react';
 import { v1 as uuidv1 } from 'uuid';
 
 import Thumbnail from './Thumbnail';
-import { getItemImageData } from '../../../../util/ajax/Preview';
+import ListGroup from 'react-bootstrap/ListGroup';
 
 class Preview extends React.Component{
   constructor(props) {
     super(props);
 
     this.state = {
+      thumbnail: 0,
       files: props.files,
     };
   }
 
-  componentDidMount() {
-    const { itemId } = this.props;
+  makeThumbnail = (index) => {
     const { files } = this.state;
 
-    if (itemId && !isNaN(itemId)) {
-      getItemImageData(itemId, (image_data) => {
-        this.setState({
-          files: {
-            ...files,
-            ...image_data,
-          }
-        })
-      });
-    }
+    this.setState({ thumbnail: index })
+    this.props.onThumbnail(files[index]);
+  }
+
+  remove = (index) => {
+    let { files } = this.state;
+    files = files.filter((_f, i) => i !== index);
+
+    this.setState({ files });
+
+    this.props.onRemove(files);
   }
 
   render() {
-    const { files } = this.state
-
-    const fileArr = Object.values(files);
-    fileArr.push(...this.props.files);
+    const { files, thumbnail } = this.state
 
     return (
-      <div className="preview-container">
-        {fileArr.map((file) => {
+      <ListGroup>
+        {files.map((file, index) => {
           return (
-            <Thumbnail inMemoryFile={file} key={uuidv1()} />
+            <Thumbnail index={index}
+                       remove={this.remove}
+                       inMemoryFile={file}
+                       key={uuidv1()}
+                       thumbnail={thumbnail}
+                       makeThumbnail={this.makeThumbnail} />
           );
         })}
-      </div>
+      </ListGroup>
     );
   }
 }

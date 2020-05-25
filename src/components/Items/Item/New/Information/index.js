@@ -53,11 +53,7 @@ class Information extends React.Component {
                         style={{ paddingTop: '12px' }} />
           </Col>
         </Row>
-        <Row>
-          <Col>
-            <GeneralForm getGeneralInfo={this.getGeneralInfo}/>
-          </Col>
-        </Row>
+
         <Row>
           <Col md={{ span: 6, offset: 4 }} sm={12} className="text-right">
             <Button onClick={this.createItem}>Save</Button>

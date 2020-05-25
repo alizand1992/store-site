@@ -51,27 +51,29 @@ export const saveAttributes = (data, callback) => {
     });
 }
 
-export const _saveItem = (formData, callback) => {
+export const saveImages = (id, thumbnail, images, callback) => {
   axios.get('/api/application/new')
     .then((res) => {
       const { authenticity_token } = res.data;
 
+      const formData = new FormData();
+
       formData.append('authenticity_token', authenticity_token);
+      formData.append('thumbnail', thumbnail);
 
-      let method = 'POST';
-      let url = '/api/items';
+      images.forEach((image, index) => {
+        formData.append(`images[${index}]`, image);
+      })
 
-      if (formData.get('id') !== null && formData.get('id') !== undefined) {
-        method = 'PUT';
-        url += `/${formData.get('id')}`;
-      }
+      const method = 'POST';
+      const url = `/api/items/${id}/images`;
 
       axios({
         method,
         url,
         data: formData,
         headers: {
-          'Content-Type': `multipart/form-data; boundary=${123}`
+          'Content-Type': `multipart/form-data; boundary=${1}`
         }
       }).then((res) => {
         callback(res);
@@ -79,9 +81,9 @@ export const _saveItem = (formData, callback) => {
         console.log(err)
       });
     }).catch((err) => {
-      console.log(err)
-    });
-}
+    console.log(err)
+  });
+};
 
 export const getItem = (id, callback) => {
   axios.get(`/api/items/${id}`)

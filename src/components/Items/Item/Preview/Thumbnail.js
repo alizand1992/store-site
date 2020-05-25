@@ -1,7 +1,12 @@
 import React from 'react';
+
+import Button from 'react-bootstrap/Button';
+import Row from 'react-bootstrap/Row';
 import Spinner from 'react-bootstrap/Spinner';
-import Card from 'react-bootstrap/Card';
+
 import { getImage } from '../../../../util/ajax/Preview';
+import ListGroup from 'react-bootstrap/ListGroup';
+import Col from 'react-bootstrap/Col';
 
 class Thumbnail extends React.Component {
   constructor(props) {
@@ -10,7 +15,6 @@ class Thumbnail extends React.Component {
     this.state = {
       name: '',
       image: null,
-      showInfo: false,
     };
   }
 
@@ -27,7 +31,6 @@ class Thumbnail extends React.Component {
     }
   }
 
-
   fileFromBlob = (blob, data) => {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(blob);
@@ -40,17 +43,9 @@ class Thumbnail extends React.Component {
     }
   }
 
-  showInfo = () => {
-    this.setState({ showInfo: true });
-  }
-
-  hideInfo = () => {
-    this.setState({ showInfo: false });
-  }
-
   info = () => {
     const { name } = this.state;
-    let displayName = name.substr(0, 15);
+    let displayName = name.substr(0, 45);
 
     if (displayName.length !== name.length) {
       displayName += '...';
@@ -60,7 +55,9 @@ class Thumbnail extends React.Component {
   }
 
   render() {
-    const { image, showInfo } = this.state;
+    const { image } = this.state;
+    const { index, thumbnail } = this.props;
+
 
     if (!image) {
       return (
@@ -72,18 +69,28 @@ class Thumbnail extends React.Component {
     }
 
     return (
-      <div className="preview-thumbnail">
-        <Card onMouseEnter={this.showInfo} onMouseLeave={this.hideInfo}>
-          <Card.Img src={image}/>
-          {showInfo &&
-            <Card.ImgOverlay>
-              <Card.Text className="display-name">
-                {this.info()}
-              </Card.Text>
-            </Card.ImgOverlay>
-          }
-        </Card>
-      </div>
+      <ListGroup.Item>
+        <Row>
+          <Col lg={6} md={6}>
+            <img src={image} height={65} style={{ marginRight: '20px'}} />
+            <b>{this.info()}</b>
+          </Col>
+          <Col lg={6} md={6} className="text-right" style={{ paddingTop: '15px' }}>
+            <Button variant={thumbnail === index ? 'success' : 'outline-success'}
+                    size="sm" style={{ cursor: 'pointer' }} className="mr-auto"
+                    onClick={(e) => {this.props.makeThumbnail(index)}}>
+              Make Thumbnail
+            </Button>
+            {' '}
+            <Button variant="outline-danger"
+                    size="sm"
+                    onClick={(e) => {this.props.remove(index)}}
+                    style={{ cursor: 'pointer' }}>
+              <i className="material-icons" style={{ fontSize: '8pt'}}>clear</i>
+            </Button>
+          </Col>
+        </Row>
+      </ListGroup.Item>
     );
   }
 }

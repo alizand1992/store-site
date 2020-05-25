@@ -6,6 +6,7 @@ import Information from '../../components/Items/Item/New/Information';
 import Attributes from '../../components/Items/Item/New/Attributes';
 import Images from '../../components/Items/Item/New/Images';
 import Item from '../../components/Items/Item/Show';
+import New from '../../components/Items/Item/New';
 
 export const ItemRoutes = () => {
   return (
@@ -13,6 +14,7 @@ export const ItemRoutes = () => {
       <Route exact path="/item/new/information" component={Information}/>
       <Route exact path="/item/new/:id/attributes" component={Attributes}/>
       <Route exact path="/item/new/:id/images" component={Images}/>
+      <Route exact path="/item/new" component={New}/>
       <Route exact path="/item/:id" component={Item}/>
     </Switch>
   );

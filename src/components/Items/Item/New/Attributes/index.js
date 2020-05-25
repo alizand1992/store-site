@@ -77,7 +77,7 @@ class Attributes extends React.Component {
     const error = newFields.filter(field => field.name.trim() === '').length !== 0;
 
     if (error || id === null) {
-      this.setState({ error });
+      this.setState({ error: true });
       return;
     }
 

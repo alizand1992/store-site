@@ -15,19 +15,27 @@ class Thumbnail extends React.Component {
   }
 
   componentDidMount() {
-    const { data, data: { name} } = this.props;
+    const { inMemoryFile } = this.props;
 
     // Coming from the server
-    if (data.url) {
-      getImage(data, (blob) => {
-          const fileReader = new FileReader();
-          fileReader.readAsDataURL(blob);
-          fileReader.onload = () => {
-            this.setState({
-              name,
-              image: fileReader.result
-            });
-          }
+    if (inMemoryFile.url) {
+      if (inMemoryFile.url) {
+        getImage(inMemoryFile, (blob) => {
+          this.fileFromBlob(blob, inMemoryFile);
+        });
+      }
+    } else {
+      this.fileFromBlob(inMemoryFile, { name: inMemoryFile.name })
+    }
+  }
+
+  fileFromBlob = (blob, data) => {
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(blob);
+    fileReader.onload = () => {
+      this.setState({
+        name: data.name,
+        image: fileReader.result
       });
     }
   }
@@ -53,8 +61,6 @@ class Thumbnail extends React.Component {
 
   render() {
     const { image, showInfo } = this.state;
-
-    console.log(image)
 
     if (!image) {
       return (

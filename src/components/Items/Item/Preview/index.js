@@ -10,29 +10,37 @@ class Preview extends React.Component{
     super(props);
 
     this.state = {
-      image_data: [],
-      files: [],
+      files: props.files,
     };
   }
 
   componentDidMount() {
     const { itemId } = this.props;
+    const { files } = this.state;
 
     if (itemId && !isNaN(itemId)) {
       getItemImageData(itemId, (image_data) => {
-        this.setState({ image_data })
+        this.setState({
+          files: {
+            ...files,
+            ...image_data,
+          }
+        })
       });
     }
   }
 
   render() {
-    const { image_data } = this.state
+    const { files } = this.state
+
+    const fileArr = Object.values(files);
+    fileArr.push(...this.props.files);
 
     return (
       <div className="preview-container">
-        {image_data.map((data) => {
+        {fileArr.map((file) => {
           return (
-            <Thumbnail data={data} key={uuidv1()} />
+            <Thumbnail inMemoryFile={file} key={uuidv1()} />
           );
         })}
       </div>

@@ -17,7 +17,6 @@ export const getImage = (image, callback) => {
     responseType: 'blob',
   }).then((res) => {
     const file = res.data;
-    console.log('get image', res)
     callback(file);
   }).catch((err) => {
     console.log(err);

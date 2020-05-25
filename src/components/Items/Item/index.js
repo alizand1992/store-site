@@ -7,10 +7,12 @@ import Row from 'react-bootstrap/Row';
 
 import CustomFields from './CustomFields';
 import DragAndDrop from '../../../util/DragAndDrop';
+import GeneralForm from './GeneralForm';
 import Preview from './Preview';
 
-import { getItem, saveItem } from '../../../util/ajax/Item';
+import { saveItem } from '../../../util/ajax/Item';
 import Alert from 'react-bootstrap/Alert';
+import { connect } from 'react-redux';
 
 class Item extends React.Component {
   constructor(props) {
@@ -27,26 +29,6 @@ class Item extends React.Component {
     }
   }
 
-  componentDidMount() {
-    const { id } = this.state;
-
-    if (id && !isNaN(id)) {
-      getItem(id, (res) => {
-        if (res.data.no_content) {
-          this.setState({ noContent: true });
-        } else {
-          const { item } = res.data;
-
-          this.setState({
-            id,
-            name: item.name,
-            show_in_gallery: item.show_in_gallery,
-          });
-        }
-      });
-    }
-  }
-
   onFileDrop = (newFiles) => {
     const { inMemoryFiles } = this.state;
 
@@ -59,7 +41,8 @@ class Item extends React.Component {
 
   submit = (e) => {
     e.preventDefault();
-    const { errors, id, inMemoryFiles, name, show_in_gallery, fields } = this.state;
+    const { errors, id, inMemoryFiles, fields } = this.state;
+    const { name, show_in_gallery } = this.props;
 
     if (name.trim() === '') {
       errors['name'] = ['Item name is required.'];
@@ -88,18 +71,6 @@ class Item extends React.Component {
     });
   }
 
-  handleNameChange = (e) => {
-    const { errors } = this.state;
-    delete errors.name;
-
-    this.setState({ name: e.target.value });
-  }
-
-  handleShowInGallery = (e) => {
-    const { show_in_gallery } = this.state;
-    this.setState({ show_in_gallery: !show_in_gallery });
-  }
-
   getFields = (combinedFields) => {
     const { fields, newFields } = combinedFields;
 
@@ -107,6 +78,13 @@ class Item extends React.Component {
     updatedFields.push(...newFields);
 
     this.setState({ fields: updatedFields });
+  }
+
+  getGeneralInfo = (generalInfo) => {
+    this.setState({
+      name: generalInfo.name,
+      show_in_gallery: generalInfo.show_in_gallery,
+    })
   }
 
   renderErr = () => {
@@ -132,7 +110,7 @@ class Item extends React.Component {
   }
 
   render() {
-    const { id, inMemoryFiles, name, show_in_gallery } = this.state;
+    const { id, inMemoryFiles } = this.state;
 
     return (
       <Form>
@@ -140,23 +118,10 @@ class Item extends React.Component {
         <Row>
           <Col lg={6} md={12}>
             <DragAndDrop onFileDrop={this.onFileDrop} />
-            <Preview itemId={id} inMemoryFiles={inMemoryFiles} />
+            <Preview itemId={id} files={inMemoryFiles} />
           </Col>
           <Col lg={6} md={12}>
-            <Row className="field-row">
-              <Col sm={6}>
-                <Form.Label>Item Name: </Form.Label>
-                <Form.Control value={name} onChange={this.handleNameChange} />
-              </Col>
-              <Col sm={6}>
-                <br />
-                <Form.Check type="checkbox"
-                            label="Show In The Gallery"
-                            checked={show_in_gallery}
-                            onChange={this.handleShowInGallery}
-                            style={{ paddingTop: '12px' }} />
-              </Col>
-            </Row>
+            <GeneralForm id={id} getGeneralInfo={this.getGeneralInfo} />
 
             <CustomFields itemId={id} getFields={this.getFields} />
 
@@ -172,4 +137,9 @@ class Item extends React.Component {
   }
 }
 
-export default Item;
+const mapStateToProps = (state) => ({
+  name: state.item.name,
+  show_in_gallery: state.item.show_in_gallery,
+});
+
+export default connect(mapStateToProps)(Item);

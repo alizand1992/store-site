@@ -114,24 +114,7 @@ class Item extends React.Component {
 
     return (
       <Form>
-        {this.renderErr()}
-        <Row>
-          <Col lg={6} md={12}>
-            <DragAndDrop onFileDrop={this.onFileDrop} />
-            <Preview itemId={id} files={inMemoryFiles} />
-          </Col>
-          <Col lg={6} md={12}>
-            <GeneralForm id={id} getGeneralInfo={this.getGeneralInfo} />
 
-            <CustomFields itemId={id} getFields={this.getFields} />
-
-            <Row>
-              <Col className="text-right">
-                <Button onClick={e => this.submit(e)}>Save</Button>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
       </Form>
     );
   }

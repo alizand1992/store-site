@@ -9,7 +9,49 @@ export const getItems = (callback) => {
     });
 }
 
-export const saveItem = (formData, callback) => {
+export const saveItem = (data, callback) => {
+  axios.get('/api/application/new')
+    .then((res) => {
+      const { authenticity_token } = res.data;
+
+      axios.post(
+        '/api/items',
+        {
+          ...data,
+          authenticity_token,
+        }
+      ).then((res) => {
+        callback(res);
+      }).catch((err) => {
+
+      });
+    }).catch((err) => {
+
+    });
+};
+
+export const saveAttributes = (data, callback) => {
+  axios.get('/api/application/new')
+    .then((res) => {
+      const { authenticity_token } = res.data;
+
+      axios.post(
+        '/api/item_attributes',
+        {
+          ...data,
+          authenticity_token,
+        }
+      ).then((res) => {
+        callback(res);
+      }).catch((err) => {
+
+      });
+    }).catch((err) => {
+
+    });
+}
+
+export const _saveItem = (formData, callback) => {
   axios.get('/api/application/new')
     .then((res) => {
       const { authenticity_token } = res.data;

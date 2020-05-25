@@ -5,7 +5,7 @@ import Preview from '../../Preview';
 import Row from 'react-bootstrap/Row';
 import { LoadingPage } from '../../../../Common/LoadingPage';
 import Button from 'react-bootstrap/Button';
-import { saveImages } from '../../../../../util/ajax/Item';
+import { saveImages } from '../../../../../util/ajax/Items/Item/New';
 
 class Images extends React.Component {
   constructor(props) {

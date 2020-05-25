@@ -1,9 +1,15 @@
 import React from 'react';
-import { getItems } from '../../util/ajax/Item';
-import Add from './Item/Add';
-import Thumbnail from './Item/Thumbnail';
+
+// Bootstrap
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+
+// Components
+import Add from './Add';
+import Thumbnail from './Thumbnail';
+
+// Ajax
+import { getItems } from '../../util/ajax/Items';
 
 class Items extends React.Component {
   constructor(props) {

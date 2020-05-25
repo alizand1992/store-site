@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Field from './Field';
-import { getItemAttributes } from '../../../../util/ajax/Item';
+import { getItemAttributes } from '../../../../util/ajax/Items/Item/New';
 
 class Fields extends React.Component {
   constructor(props) {

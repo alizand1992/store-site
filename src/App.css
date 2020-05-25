@@ -73,10 +73,26 @@ div.preview-container {
         width: 100%;
         text-align: center;
     }
+
+    div.item-container {
+        display: none;
+    }
 }
 
 @media (min-width: 769px) {
     span.menu-container-xs {
+        display: none;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 996px) {
+    div.item-container {
+        display: none;
+    }
+}
+
+@media (min-width: 997px) {
+    div.item-container-sm {
         display: none;
     }
 }

@@ -10,7 +10,7 @@ import Container from 'react-bootstrap/Container';
 import Menu from './components/Menu';
 import Gallery from './components/Gallery';
 import Items from './components/Items';
-import Item from './components/Items/Item';
+import Item from './components/Items/Item/Show';
 import Information from './components/Items/Item/New/Information';
 import Attributes from './components/Items/Item/New/Attributes';
 import Images from './components/Items/Item/New/Images';
@@ -47,7 +47,7 @@ class App extends React.Component {
             <Route exact path="/item/new/information" component={Information} />
             <Route exact path="/item/new/:id/attributes" component={Attributes} />
             <Route exact path="/item/new/:id/images" component={Images} />
-            <Route exact path={['/item/:id', '/item/']} render={(props) => <Item {...props} setFluid={this.setFluid}/>} />
+            <Route exact path="/item/:id" component={Item} />
             <Route path={['/', 'gallery']} component={Gallery} />
           </Switch>
         </Container>

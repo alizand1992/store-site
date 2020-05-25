@@ -31,7 +31,10 @@ class Gallery extends React.Component {
         {items.map((item) => {
           return (
             <Col xs={12} s={12} md={6} lg={4} key={uuidv1()}>
-              <ImageContainer thumbnail={item.thumbnail} name={item.name} />
+              <ImageContainer thumbnail={item.thumbnail}
+                              name={item.name}
+                              history={this.props.history}
+                              id={item.id} />
             </Col>
           );
         })}

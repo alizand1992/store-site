@@ -1,14 +1,5 @@
 import axios from 'axios';
 
-export const getItems = (callback) => {
-  axios.get('/api/items')
-    .then((res) => {
-      callback(res.data);
-    }).catch((err) => {
-      console.log(err);
-    });
-}
-
 export const saveItem = (data, callback) => {
   axios.get('/api/application/new')
     .then((res) => {
@@ -85,14 +76,6 @@ export const saveImages = (id, thumbnail, images, callback) => {
   });
 };
 
-export const getItem = (id, callback) => {
-  axios.get(`/api/items/${id}`)
-    .then((res) => {
-      callback(res);
-    }).catch((err) => {
-      console.log(err)
-    });
-}
 
 export const getItemAttributes = (item_id, callback) => {
   axios.get(`/api/item_attributes/${item_id}`)

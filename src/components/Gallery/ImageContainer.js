@@ -45,8 +45,12 @@ class ImageContainer extends React.Component {
     )
   }
 
+  goToItem = (id) => {
+    this.props.history.push(`/item/${id}`);
+  }
+
   render() {
-    const { name } = this.props;
+    const { id, name } = this.props;
     const { thumbnail } = this.state;
 
     if (!thumbnail) {
@@ -55,7 +59,7 @@ class ImageContainer extends React.Component {
 
     return (
       <React.Fragment>
-        <Card>
+        <Card onClick={this.goToItem(id)}>
           <Card.Img variant="top" src={thumbnail} width={250} />
           <Card.Body>
             <Card.Text className="text-center">{name}</Card.Text>

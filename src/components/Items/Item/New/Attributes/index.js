@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
-import { saveAttributes } from '../../../../../util/ajax/Item';
+import { saveAttributes } from '../../../../../util/ajax/Items/Item/New';
 
 class Attributes extends React.Component {
   constructor(props) {

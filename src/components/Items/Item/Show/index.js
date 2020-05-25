@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Information from './Information';
 import { LoadingPage } from '../../../Common/LoadingPage';
+import Images from './Images';
 
 class Item extends React.Component {
   constructor(props) {
@@ -25,16 +26,16 @@ class Item extends React.Component {
       <React.Fragment>
         <Row className="item-container-sm">
           <Col sm={12}>
-            Information
+            <Information id={id} />
           </Col>
           <Col sm={12}>
-            Pictures
+            <Images id={id} />
           </Col>
         </Row>
 
         <Row className="item-container">
           <Col lg={8}>
-            Picture
+            <Images id={id} />
           </Col>
           <Col lg={4}>
             <Information id={id} />

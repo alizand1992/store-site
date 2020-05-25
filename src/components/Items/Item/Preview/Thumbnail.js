@@ -72,7 +72,7 @@ class Thumbnail extends React.Component {
       <ListGroup.Item>
         <Row>
           <Col lg={6} md={6}>
-            <img src={image} height={65} style={{ marginRight: '20px'}} />
+            <img src={image} height={65} style={{ marginRight: '20px'}} alt="Item" />
             <b>{this.info()}</b>
           </Col>
           <Col lg={6} md={6} className="text-right" style={{ paddingTop: '15px' }}>

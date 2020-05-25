@@ -8,10 +8,10 @@ import Container from 'react-bootstrap/Container';
 
 // Components
 import Menu from './components/Menu';
-import Gallery from './components/Gallery';
 import SiteProperties from './components/Common/SiteProperties';
 import { PropertyRoutes } from './Routes/Properties';
 import { ItemRoutes } from './Routes/Item';
+import Items from './components/Items';
 
 class App extends React.Component {
   constructor(props) {
@@ -42,9 +42,10 @@ class App extends React.Component {
           <Menu />
           <br />
           <Switch>
-            <ItemRoutes />
-            <PropertyRoutes />
-            <Route path={['/', 'gallery']} component={Gallery} />
+            <Route path="/items" component={Items} />
+            <Route path="/item" component={ItemRoutes} />
+            <Route path="/properties" component={PropertyRoutes} />
+            {/*<Route path={['/']} component={Gallery} />*/}
           </Switch>
         </Container>
       </Router>

@@ -59,7 +59,7 @@ class ImageContainer extends React.Component {
 
     return (
       <React.Fragment>
-        <Card onClick={this.goToItem(id)}>
+        <Card onClick={(e) => {this.goToItem(id)}}>
           <Card.Img variant="top" src={thumbnail} width={250} />
           <Card.Body>
             <Card.Text className="text-center">{name}</Card.Text>

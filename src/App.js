@@ -12,6 +12,7 @@ import SiteProperties from './components/Common/SiteProperties';
 import { PropertyRoutes } from './Routes/Properties';
 import { ItemRoutes } from './Routes/Item';
 import Items from './components/Items';
+import Gallery from './components/Gallery';
 
 class App extends React.Component {
   constructor(props) {
@@ -42,10 +43,10 @@ class App extends React.Component {
           <Menu />
           <br />
           <Switch>
+            <Route exact path="/" component={Gallery} />
             <Route path="/items" component={Items} />
             <Route path="/item" component={ItemRoutes} />
             <Route path="/properties" component={PropertyRoutes} />
-            {/*<Route path={['/']} component={Gallery} />*/}
           </Switch>
         </Container>
       </Router>

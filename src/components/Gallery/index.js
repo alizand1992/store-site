@@ -17,6 +17,7 @@ class Gallery extends React.Component {
       items: [],
     };
   }
+
   componentDidMount() {
     getThumbnails((result) => {
       this.setState({ items: result.data.items });

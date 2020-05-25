@@ -23,7 +23,9 @@ class Menu extends React.Component {
         </span>
         <Navbar.Collapse id="menu">
           <Nav className="ml-auto">
-            <Nav.Link active={true}><span className="menu-item">Work</span></Nav.Link>
+            <Nav.Link active={true} href="/">
+              <span className="menu-item">Work</span>
+            </Nav.Link>
             <Nav.Link><span className="menu-item">Exhibitions</span></Nav.Link>
             <Nav.Link><span className="menu-item">About</span></Nav.Link>
             <Nav.Link><span className="menu-item">Contact</span></Nav.Link>

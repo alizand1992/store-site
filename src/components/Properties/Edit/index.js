@@ -1,14 +1,17 @@
 import React from 'react';
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
-import Form from 'react-bootstrap/Form';
-import Col from 'react-bootstrap/Col';
-import { LoadingPage } from '../../Common/LoadingPage';
-import { DISPLAY_FIELD_NAMES } from '../../../util/constants/common';
-import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+
 import { saveProperties } from '../../../util/ajax/Properties';
+import { setSiteProperties } from '../../../actions/common';
+
+import { LoadingPage } from '../../Common/LoadingPage';
 
 class Edit extends React.Component {
   constructor(props) {
@@ -63,7 +66,6 @@ class Edit extends React.Component {
     }
 
     saveProperties(toSend, (res) => {
-      console.log(res)
       this.setState({ loading: false });
     });
   }
@@ -110,4 +112,6 @@ const mapStateToProps = (state) => ({
   properties: state.common.properties,
 });
 
-export default connect(mapStateToProps)(Edit);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ setSiteProperties }, dispatch)
+
+export default connect(mapStateToProps, mapDispatchToProps)(Edit);

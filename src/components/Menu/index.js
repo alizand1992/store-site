@@ -73,9 +73,9 @@ class Menu extends React.Component {
             <Nav.Link active={true} href="/">
               <span className="menu-item">{MENU_1}</span>
             </Nav.Link>
-            <Nav.Link><span className="menu-item">{MENU_2}</span></Nav.Link>
-            <Nav.Link><span className="menu-item">About</span></Nav.Link>
-            <Nav.Link><span className="menu-item">Contact</span></Nav.Link>
+            <Nav.Link href={`/${MENU_2}`}><span className="menu-item">{MENU_2}</span></Nav.Link>
+            <Nav.Link href="/about"><span className="menu-item">About</span></Nav.Link>
+            <Nav.Link href="/contact"><span className="menu-item">Contact</span></Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

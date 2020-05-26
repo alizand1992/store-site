@@ -18,6 +18,7 @@ import Contact from './components/Contact';
 import { connect } from 'react-redux';
 import Page2 from './components/Page2';
 import { MENU_2 } from './util/constants/common';
+import { AboutRoutes } from './Routes/About';
 
 class App extends React.Component {
   constructor(props) {
@@ -64,7 +65,7 @@ class App extends React.Component {
             <Route path="/items" component={Items} />
             <Route path="/item" component={ItemRoutes} />
             <Route path="/properties" component={PropertyRoutes} />
-            <Route path="/about" component={About} />
+            <Route path="/about" component={AboutRoutes} />
             <Route path="/contact" component={Contact} />
             <Route path={`/${page2}`} component={Page2} />
           </Switch>

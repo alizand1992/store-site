@@ -128,7 +128,12 @@ class Attributes extends React.Component {
     newFields[j].order = index
 
     this.setState({ newFields: this.swap(newFields, index, j) });
-}
+  }
+
+  skip = () => {
+    const { id } = this.state;
+    this.props.history.push(`/item/new/${id}/images`);
+  }
 
   render() {
     const { error, newFields, name, value, id } = this.state;
@@ -205,6 +210,8 @@ class Attributes extends React.Component {
         </Row>
         <Row>
           <Col md={{ span: 6, offset: 4 }} sm={12} className="text-right">
+            <Button variant="success" onClick={this.skip}>Skip</Button>
+            {' '}
             <Button onClick={this.submit}>Save</Button>
           </Col>
         </Row>

@@ -55,8 +55,29 @@ class Information extends React.Component {
     })
   }
 
+  skip = () => {
+    const { id } = this.state;
+    this.props.history.push(`/item/new/${id}/attributes`);
+  }
+
+  renderButtons = () => {
+    const { id } = this.state;
+
+    if (id) {
+      return (
+        <React.Fragment>
+          <Button variant="success" onClick={this.skip}>Skip</Button>
+          {' '}
+          <Button onClick={this.saveItem}>Update</Button>
+        </React.Fragment>
+      );
+    } else {
+      return <Button onClick={this.createItem}>Save</Button>;
+    }
+  }
+
   render() {
-    const { id, name, show_in_gallery } = this.state;
+    const { name, show_in_gallery } = this.state;
 
     return (
       <Form>
@@ -78,10 +99,7 @@ class Information extends React.Component {
 
         <Row>
           <Col md={{ span: 6, offset: 4 }} sm={12} className="text-right">
-            {id
-              ? (<Button onClick={this.saveItem}>Update</Button>)
-              : (<Button onClick={this.createItem}>Save</Button>)
-            }
+            {this.renderButtons()}
           </Col>
         </Row>
       </Form>

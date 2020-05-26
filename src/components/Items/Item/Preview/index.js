@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { v1 as uuidv1 } from 'uuid';
-
 import Thumbnail from './Thumbnail';
 import ListGroup from 'react-bootstrap/ListGroup';
 
@@ -11,6 +9,7 @@ class Preview extends React.Component{
 
     this.state = {
       thumbnail: 0,
+      data: props.data,
       files: props.files,
     };
   }
@@ -19,7 +18,7 @@ class Preview extends React.Component{
     const { files } = this.state;
 
     this.setState({ thumbnail: index })
-    this.props.onThumbnail(files[index]);
+    this.props.onThumbnail(index);
   }
 
   remove = (index) => {
@@ -31,17 +30,44 @@ class Preview extends React.Component{
     this.props.onRemove(files);
   }
 
+  delete = (id) => {
+    let { data } = this.state;
+    data = data.filter(d => d.id !== id);
+
+    this.setState({ data });
+    this.props.onDelete(data, id)
+  }
+
   render() {
-    const { files, thumbnail } = this.state
+    const { data, files, thumbnail } = this.state
+
+    let addToIndex = 0;
+
+    if (data) {
+      addToIndex = 0;
+      data.forEach((d) => { if (d.id > addToIndex) addToIndex = d.id; });
+      addToIndex++;
+    }
+
 
     return (
       <ListGroup>
+        {data.map((d) => {
+          return (
+            <Thumbnail index={d.id}
+                       remove={this.delete}
+                       inMemoryFile={d}
+                       key={d.id}
+                       thumbnail={thumbnail}
+                       makeThumbnail={this.makeThumbnail} />
+          )
+        })}
         {files.map((file, index) => {
           return (
-            <Thumbnail index={index}
+            <Thumbnail index={index + addToIndex}
                        remove={this.remove}
                        inMemoryFile={file}
-                       key={uuidv1()}
+                       key={index}
                        thumbnail={thumbnail}
                        makeThumbnail={this.makeThumbnail} />
           );

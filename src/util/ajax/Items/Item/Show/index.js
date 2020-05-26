@@ -7,7 +7,7 @@ export const getItemWithAttributes = (id, callback) => {
     }).catch((err) => {
       console.log(err);
     });
-}
+};
 
 export const getImageUrls = (id, callback) => {
   axios.get(`/api/items/${id}/images`)
@@ -16,6 +16,6 @@ export const getImageUrls = (id, callback) => {
 
       callback(images);
     }).catch((err) => {
-    console.log(err);
-  });
-}
+      console.log(err);
+    });
+};

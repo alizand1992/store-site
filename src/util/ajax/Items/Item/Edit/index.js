@@ -20,3 +20,14 @@ export const updateItem = (data, callback) => {
 
   });
 };
+
+export const getImageData = (id, callback) => {
+  axios.get(`/api/items/${id}/image_data`)
+    .then((res) => {
+      const { images } = res.data;
+
+      callback(images);
+    }).catch((err) => {
+      console.log(err);
+    });
+};

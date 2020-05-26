@@ -42,7 +42,7 @@ export const saveAttributes = (data, callback) => {
     });
 }
 
-export const saveImages = (id, thumbnail, images, callback) => {
+export const saveImages = (id, thumbnail, images, deleted, callback) => {
   axios.get('/api/application/new')
     .then((res) => {
       const { authenticity_token } = res.data;
@@ -51,6 +51,9 @@ export const saveImages = (id, thumbnail, images, callback) => {
 
       formData.append('authenticity_token', authenticity_token);
       formData.append('thumbnail', thumbnail);
+      deleted.forEach((d_id, index) => {
+        formData.append(`deleted[${index}]`, deleted[index]);
+      })
 
       images.forEach((image, index) => {
         formData.append(`images[${index}]`, image);

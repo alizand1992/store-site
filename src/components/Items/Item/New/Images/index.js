@@ -1,24 +1,36 @@
 import React from 'react';
+
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import DragAndDrop from '../../../../../util/DragAndDrop';
 import Preview from '../../Preview';
 import Row from 'react-bootstrap/Row';
+
 import { LoadingPage } from '../../../../Common/LoadingPage';
-import Button from 'react-bootstrap/Button';
+import DragAndDrop from '../../../../../util/DragAndDrop';
+
 import { saveImages } from '../../../../../util/ajax/Items/Item/New';
+import { getImageData } from '../../../../../util/ajax/Items/Item/Edit';
 
 class Images extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      files: []
+      thumbnail: -1,
+      deleted: [],
+      data: [],
+      files: [],
     };
   }
 
   componentDidMount() {
-    this.setState({
-      id: this.props.match.params.id,
+    const { id } = this.props.match.params;
+
+    getImageData(id, (data) => {
+      this.setState({
+        id,
+        data,
+      });
     });
   }
 
@@ -36,18 +48,47 @@ class Images extends React.Component {
     this.setState({ files });
   }
 
+  onDelete = (data, id) => {
+    const { deleted } = this.state;
+    deleted.push(id);
+
+    this.setState({
+      data, deleted
+    });
+  }
+
   onThumbnail = (thumbnail) => {
+    console.log(thumbnail)
     this.setState({ thumbnail });
   }
 
   submit = () => {
-    let { id, files, thumbnail } = this.state;
+    let { id, files, data, deleted, thumbnail } = this.state;
 
-    if (!thumbnail && files) {
+    console.log(id, files, thumbnail)
+
+    if (thumbnail === -1 && files) {
       thumbnail = files[0];
+    } else {
+      let temp = data.filter(d => d.id === thumbnail);
+
+      if (deleted.includes(thumbnail)) {
+        if (data.length > 0) {
+          thumbnail = data[0].id;
+        } else if (files.length > 0) {
+          thumbnail = files[0];
+        }
+      } else if (temp.length === 1) {
+        thumbnail = temp[0].id;
+      } else {
+        let addToIndex = 0;
+        data.forEach((d) => { if (d.id > addToIndex) addToIndex = d.id; });
+        addToIndex++;
+        thumbnail = files[thumbnail - addToIndex]
+      }
     }
 
-    saveImages(id, thumbnail, files, (res) => {
+    saveImages(id, thumbnail, files, deleted, (res) => {
       if (res.data.success) {
         this.props.history.push(`/`);
       }
@@ -58,8 +99,14 @@ class Images extends React.Component {
     this.props.history.push(`/`);
   }
 
+  saveIsDisabled = () => {
+    const { deleted, files, thumbnail } = this.state;
+
+    return files.length === 0 && thumbnail === 0 && deleted.length === 0;
+  }
+
   render() {
-    const { id, files } = this.state;
+    const { id, data, files } = this.state;
     if (!id) {
       return <LoadingPage />
     }
@@ -73,15 +120,19 @@ class Images extends React.Component {
         </Row>
         <Row>
           <Col lg={12}>
-            <Preview files={files} onRemove={this.onRemove} onThumbnail={this.onThumbnail} />
+            <Preview data={data}
+                     files={files}
+                     onRemove={this.onRemove}
+                     onDelete={this.onDelete}
+                     onThumbnail={this.onThumbnail} />
           </Col>
         </Row>
         <br />
         <Row>
           <Col lg={12} className="text-right">
-            <Button onClick={this.skip}>Skip</Button>
+            <Button variant="success" onClick={this.skip}>Skip</Button>
             {' '}
-            <Button onClick={this.submit} disabled={files.length === 0}>Save</Button>
+            <Button onClick={this.submit} disabled={this.saveIsDisabled()}>Save</Button>
           </Col>
         </Row>
       </React.Fragment>

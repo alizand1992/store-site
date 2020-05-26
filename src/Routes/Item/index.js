@@ -3,7 +3,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
 import Information from '../../components/Items/Item/Common/Information';
-import Attributes from '../../components/Items/Item/New/Attributes';
+import Attributes from '../../components/Items/Item/Common/Attributes';
 import Images from '../../components/Items/Item/New/Images';
 import Item from '../../components/Items/Item/Show';
 import New from '../../components/Items/Item/New';

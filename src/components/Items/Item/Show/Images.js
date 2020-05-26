@@ -37,7 +37,7 @@ class Images extends React.Component {
             <React.Fragment key={url}>
               <Row>
                 <Col lg={12}>
-                  <Image src={url} fluid />
+                  <Image style={{ imageOrientation: 'from-image' }} src={url} fluid />
                 </Col>
               </Row>
               <br />

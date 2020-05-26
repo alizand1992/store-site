@@ -12,6 +12,7 @@ import { saveProperties } from '../../../util/ajax/Properties';
 import { setSiteProperties } from '../../../actions/common';
 
 import { LoadingPage } from '../../Common/LoadingPage';
+import { getSiteProperties } from '../../../util/ajax/Common';
 
 class Edit extends React.Component {
   constructor(props) {
@@ -66,7 +67,10 @@ class Edit extends React.Component {
     }
 
     saveProperties(toSend, (res) => {
-      this.setState({ loading: false });
+      getSiteProperties((res) => {
+        this.props.setSiteProperties(res.data.properties);
+        this.setState({ loading: false });
+      });
     });
   }
 

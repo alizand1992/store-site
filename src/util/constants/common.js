@@ -1,1 +1,2 @@
 export const DISPLAY_FIELD_NAMES = 'DISPLAY_FIELD_NAMES';
+export const SITE_NAME = 'SITE_NAME';

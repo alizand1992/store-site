@@ -19,6 +19,7 @@ import { connect } from 'react-redux';
 import Page2 from './components/Page2';
 import { MENU_2 } from './util/constants/common';
 import { AboutRoutes } from './Routes/About';
+import Page2Routes from './Routes/Page2';
 
 class App extends React.Component {
   constructor(props) {
@@ -67,7 +68,7 @@ class App extends React.Component {
             <Route path="/properties" component={PropertyRoutes} />
             <Route path="/about" component={AboutRoutes} />
             <Route path="/contact" component={Contact} />
-            <Route path={`/${page2}`} component={Page2} />
+            <Route path={`/post`} component={Page2Routes} />
           </Switch>
         </Container>
       </Router>

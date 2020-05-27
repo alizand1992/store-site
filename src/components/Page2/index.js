@@ -1,5 +1,5 @@
 import React from 'react';
-import Post from './Post';
+import Post from './Post/Show';
 
 class Page2 extends React.Component {
   render() {

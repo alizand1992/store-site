@@ -1,8 +1,9 @@
 import React from 'react';
+import Post from './Post';
 
 class Page2 extends React.Component {
   render() {
-    return <div>Page2</div>;
+    return <Post />
   }
 }
 

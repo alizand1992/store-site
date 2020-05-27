@@ -5,15 +5,14 @@ import Row from 'react-bootstrap/Row';
 
 class Post extends React.Component {
   render() {
-    const created_at = '1/1/2019';
-    const updated_at = '11/25/2020'
-    const body = "This is the first line.\nThis is the second line."
+    const { title, body, created_at, updated_at } = this.props.post;
 
     return (
+
       <React.Fragment>
         <Row>
           <Col>
-            <h2>Title</h2>
+            <h2>{title}</h2>
           </Col>
         </Row>
         <Row>
@@ -21,16 +20,13 @@ class Post extends React.Component {
             <span className="text-muted post-subtitle">
               Date: {created_at}
             </span>
-            <span className="text-muted post-subtitle">
-              Last Editted: {updated_at}
-            </span>
           </Col>
         </Row>
         <br />
         <Row>
           <Col>
-            {body.split("\n").map((paragraph) => {
-              return <p>{paragraph}</p>;
+            {body.split("\n").map((paragraph, index) => {
+              return <p key={index}>{paragraph}</p>;
             })}
           </Col>
         </Row>

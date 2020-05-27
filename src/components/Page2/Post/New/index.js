@@ -14,6 +14,11 @@ class New extends React.Component {
             <Form.Control placeholder="Title" />
           </Col>
         </Row>
+        <Row>
+          <Col lg={{ span: 8, offset: 2}} md={12} style={{ marginTop: '10px' }}>
+            <Form.Check label="Publish on save!" />
+          </Col>
+        </Row>
         <br />
         <Row>
           <Col lg={{ span: 8, offset: 2}} md={12}>

@@ -8,6 +8,9 @@ import Row from 'react-bootstrap/Row';
 import ImageContainer from './ImageContainer';
 
 import { getThumbnails } from '../../util/ajax/gallery';
+import { bindActionCreators } from 'redux';
+import { setCurrentComponent } from '../../actions/common';
+import { connect } from 'react-redux';
 
 class Gallery extends React.Component {
   constructor(props) {
@@ -19,6 +22,8 @@ class Gallery extends React.Component {
   }
 
   componentDidMount() {
+    this.props.setCurrentComponent('main');
+
     getThumbnails((result) => {
       this.setState({ items: result.data.items });
     });
@@ -44,4 +49,6 @@ class Gallery extends React.Component {
   }
 }
 
-export default Gallery;
+const mapDispatchToProps = (dispatch) => bindActionCreators({ setCurrentComponent }, dispatch);
+
+export default connect(null, mapDispatchToProps)(Gallery);

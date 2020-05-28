@@ -25,8 +25,14 @@ class Menu extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.properties === undefined || prevProps.properties !== this.props.properties) {
-      this.setProps(this.props.properties)
+    const { currentComponent, properties } = this.props;
+
+    if (properties && (prevProps.properties === undefined || prevProps.properties !== properties)) {
+      this.setProps(properties)
+    }
+
+    if (currentComponent && currentComponent !== prevProps.currentComponent) {
+      this.setState({ currentComponent })
     }
   }
 
@@ -49,7 +55,9 @@ class Menu extends React.Component {
   }
 
   render() {
-    const { SITE_NAME, MENU_1, MENU_2 } = this.state;
+    const { currentComponent, SITE_NAME, MENU_1, MENU_2 } = this.state;
+
+
 
     return (
       <Navbar variant="light" expand="lg">
@@ -70,12 +78,12 @@ class Menu extends React.Component {
         </span>
         <Navbar.Collapse id="menu">
           <Nav className="ml-auto">
-            <Nav.Link active={true} href="/">
+            <Nav.Link active={currentComponent === 'main'} href="/">
               <span className="menu-item">{MENU_1}</span>
             </Nav.Link>
-            <Nav.Link href={`/${MENU_2}`}><span className="menu-item">{MENU_2}</span></Nav.Link>
-            <Nav.Link href="/about"><span className="menu-item">About</span></Nav.Link>
-            <Nav.Link href="/contact"><span className="menu-item">Contact</span></Nav.Link>
+            <Nav.Link active={currentComponent === 'posts'} href="/posts"><span className="menu-item">{MENU_2}</span></Nav.Link>
+            <Nav.Link active={currentComponent === 'about'} href="/about"><span className="menu-item">About</span></Nav.Link>
+            <Nav.Link active={currentComponent === 'contact'} href="/contact"><span className="menu-item">Contact</span></Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -85,6 +93,7 @@ class Menu extends React.Component {
 
 const mapStatesToProps = (state) => ({
   properties: state.common.properties,
+  currentComponent: state.common.currentComponent,
 });
 
 export default connect(mapStatesToProps)(Menu);

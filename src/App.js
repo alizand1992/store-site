@@ -13,13 +13,11 @@ import { PropertyRoutes } from './Routes/Properties';
 import { ItemRoutes } from './Routes/Item';
 import Items from './components/Items';
 import Gallery from './components/Gallery';
-import About from './components/About';
 import Contact from './components/Contact';
 import { connect } from 'react-redux';
-import Page2 from './components/Page2';
 import { MENU_2 } from './util/constants/common';
 import { AboutRoutes } from './Routes/About';
-import Page2Routes from './Routes/Page2';
+import { PostRoutes } from './Routes/Posts';
 
 class App extends React.Component {
   constructor(props) {
@@ -39,7 +37,6 @@ class App extends React.Component {
   setPage2 = (props) => {
     const page2 = props.filter(prop => prop.name === MENU_2)[0].value;
     this.setState({ page2 });
-
   }
 
   setFluid = (fluid = false) => {
@@ -47,7 +44,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { fluid, page2 } = this.state;
+    const { fluid } = this.state;
 
     return (
       <Router>
@@ -68,7 +65,7 @@ class App extends React.Component {
             <Route path="/properties" component={PropertyRoutes} />
             <Route path="/about" component={AboutRoutes} />
             <Route path="/contact" component={Contact} />
-            <Route path={`/post`} component={Page2Routes} />
+            <Route path="/posts" component={PostRoutes} />
           </Switch>
         </Container>
       </Router>

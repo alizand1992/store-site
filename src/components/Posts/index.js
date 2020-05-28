@@ -1,8 +1,11 @@
 import React from 'react';
 import Post from './Post/Show';
 import { getActivePosts } from '../../util/ajax/Post';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { setCurrentComponent } from '../../actions/common';
 
-class Page2 extends React.Component {
+class Posts extends React.Component {
   constructor(props) {
     super(props);
 
@@ -12,6 +15,8 @@ class Page2 extends React.Component {
   }
 
   componentDidMount() {
+    this.props.setCurrentComponent('posts');
+
     getActivePosts((res) => {
       this.setState({ posts: res.data.posts });
     });
@@ -23,11 +28,13 @@ class Page2 extends React.Component {
     return (
       <React.Fragment>
         {posts.map((post) => {
-          return <Post post={post} />
+          return <Post post={post} key={post.id} />
         })}
       </React.Fragment>
     );
   }
 }
 
-export default Page2;
+const mapDispatchToProps = (dispatch) => bindActionCreators({ setCurrentComponent }, dispatch);
+
+export default connect(null, mapDispatchToProps)(Posts);

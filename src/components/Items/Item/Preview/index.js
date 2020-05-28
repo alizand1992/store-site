@@ -15,8 +15,6 @@ class Preview extends React.Component{
   }
 
   makeThumbnail = (index) => {
-    const { files } = this.state;
-
     this.setState({ thumbnail: index })
     this.props.onThumbnail(index);
   }

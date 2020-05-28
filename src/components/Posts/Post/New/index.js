@@ -1,10 +1,16 @@
 import React from 'react';
+
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+
+import Alert from 'react-bootstrap/Alert';
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
-import Button from 'react-bootstrap/Button';
-import Alert from 'react-bootstrap/Alert';
+
 import { savePost } from '../../../../util/ajax/Post';
+import { setCurrentComponent } from '../../../../actions/common';
 
 class New extends React.Component {
   constructor(props) {
@@ -18,6 +24,9 @@ class New extends React.Component {
     };
   }
 
+  componentDidMount() {
+    this.props.setCurrentComponent('posts');
+  }
 
   setTitle = (e) => {
     this.setState({
@@ -97,4 +106,6 @@ class New extends React.Component {
   }
 }
 
-export default New;
+const mapDispatchToProps = (dispatch) => bindActionCreators({ setCurrentComponent }, dispatch);
+
+export default connect(null, mapDispatchToProps)(New);

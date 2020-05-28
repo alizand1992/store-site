@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 
 class Post extends React.Component {
   render() {
-    const { title, body, created_at, updated_at } = this.props.post;
+    const { title, body, created_at } = this.props.post;
 
     return (
 

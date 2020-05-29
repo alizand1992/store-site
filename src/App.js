@@ -18,6 +18,9 @@ import { connect } from 'react-redux';
 import { MENU_2 } from './util/constants/common';
 import { AboutRoutes } from './Routes/About';
 import { PostRoutes } from './Routes/Posts';
+import { UserRoutes } from './Routes/User';
+import { bindActionCreators } from 'redux';
+import { setAuthKey } from './actions/User';
 
 class App extends React.Component {
   constructor(props) {
@@ -26,6 +29,12 @@ class App extends React.Component {
     this.state = {
       fluid: false,
     };
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem('auth_key')) {
+      this.props.setAuthKey(localStorage.getItem('auth_key'));
+    }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -66,6 +75,7 @@ class App extends React.Component {
             <Route path="/about" component={AboutRoutes} />
             <Route path="/contact" component={Contact} />
             <Route path="/posts" component={PostRoutes} />
+            <Route path="/user" component={UserRoutes} />
           </Switch>
         </Container>
       </Router>
@@ -77,4 +87,6 @@ const mapStatesToProps = (state) => ({
   properties: state.common.properties,
 });
 
-export default connect(mapStatesToProps)(App);
+const mapDispatchToProps = (dispatch) => bindActionCreators({ setAuthKey }, dispatch);
+
+export default connect(mapStatesToProps, mapDispatchToProps)(App);

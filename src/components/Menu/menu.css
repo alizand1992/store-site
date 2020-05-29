@@ -1,0 +1,7 @@
+.dropdown-toggle {
+    padding-top: 10px;
+}
+
+.dropdown-toggle:after {
+    content: none;
+}

@@ -104,7 +104,7 @@ class Menu extends React.Component {
               {!auth_key && <NavDropdown.Item href="/user/sign_in">Sign In</NavDropdown.Item>}
               {auth_key &&
                 <React.Fragment>
-                  <NavDropdown.Item href="/item/list">Items</NavDropdown.Item>
+                  <NavDropdown.Item href="/items/">Items</NavDropdown.Item>
                   <NavDropdown.Item href="/item/new">Add Item</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href="/posts/list">Posts</NavDropdown.Item>

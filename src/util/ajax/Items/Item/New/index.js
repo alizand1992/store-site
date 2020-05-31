@@ -79,7 +79,6 @@ export const saveImages = (id, thumbnail, images, deleted, callback) => {
   });
 };
 
-
 export const getItemAttributes = (item_id, callback) => {
   axios.get(`/api/item_attributes/${item_id}`)
     .then((res) => {

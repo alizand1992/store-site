@@ -27,11 +27,17 @@ class Items extends React.Component {
   }
 
   render() {
+    const { items } = this.state;
+
     return (
       <Row>
-        <Col lg={3} md={4} sm={6} xs={6}>
-          <Thumbnail />
-        </Col>
+        {items.map((item) => {
+          return (
+            <Col lg={3} md={4} sm={6} xs={6}>
+              <Thumbnail id={item.id} name={item.name} />
+            </Col>
+          )
+        })}
         <Col lg={3} md={4} sm={6} xs={6}>
           <Add />
         </Col>

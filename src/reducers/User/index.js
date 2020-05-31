@@ -8,9 +8,15 @@ function user(state = {}, action) {
         auth_key: action.auth_key,
       };
 
+    case ActionTypes.REMOVE_AUTH_KEY:
+      return {
+        ...state,
+        auth_key: undefined,
+      }
+
     default:
       return state;
-  };
-};
+  }
+}
 
 export default user;

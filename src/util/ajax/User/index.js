@@ -16,3 +16,18 @@ export const signInUser = (data, callback) => {
     console.log(err);
   });
 };
+
+export const signOutUser = (auth_key, callback) => {
+  axios.delete(
+    '/api/users/sign_out',
+    {
+      headers: {
+        authorization: auth_key,
+      },
+    }
+  ).then((res) => {
+    callback(res);
+  }).catch((err) => {
+    console.log(err)
+  });
+};

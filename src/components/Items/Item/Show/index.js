@@ -1,12 +1,17 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+
+import Alert from 'react-bootstrap/Alert';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+
 import Information from './Information';
-import { LoadingPage } from '../../../Common/LoadingPage';
 import Images from './Images';
+import { LoadingPage } from '../../../Common/LoadingPage';
+
+import { errorMessages } from '../../../../util/constants/errors';
 import { DISPLAY_FIELD_NAMES } from '../../../../util/constants/common';
-import { connect } from 'react-redux';
 
 class Item extends React.Component {
   constructor(props) {
@@ -15,6 +20,7 @@ class Item extends React.Component {
     this.state = {
       id: props.match.params.id,
       displayFieldNames: false,
+      errors: {},
     }
   }
 
@@ -37,30 +43,65 @@ class Item extends React.Component {
     this.setState({ displayFieldNames });
   }
 
+  noPermission = () => {
+    const { errors } = this.state;
+
+    this.setState({
+      errors: {
+        ...errors,
+        noPermission: true
+      },
+    });
+  }
+
   render() {
-    const { id, displayFieldNames } = this.state;
+    const { id, displayFieldNames, errors } = this.state;
 
     if (!id) {
       return <LoadingPage />;
+    }
+
+    const errs = Object.entries(errors);
+
+    if (errs.length !== 0) {
+      return (
+        <Row>
+          <Col sm={12}>
+            <Alert variant="danger" className="text-center">
+              {errs.map((pair) => {
+                if (pair[1] === false) {
+                  return null;
+                }
+
+                return (
+                  <React.Fragment key={pair[0]}>
+                    {errorMessages[pair[0]]} <br />
+                  </React.Fragment>
+                );
+              })}
+            </Alert>
+          </Col>
+        </Row>
+      );
     }
 
     return (
       <React.Fragment>
         <Row className="item-container-sm">
           <Col sm={12}>
-            <Information id={id} displayFieldNames={displayFieldNames} />
+            <Information id={id} displayFieldNames={displayFieldNames} noPermission={this.noPermission} />
           </Col>
           <Col sm={12}>
-            <Images id={id} />
+            <Images id={id} noPermission={this.noPermission} />
           </Col>
         </Row>
 
         <Row className="item-container">
           <Col lg={displayFieldNames ? 8 : 10}>
-            <Images id={id} />
+            <Images id={id} noPermission={this.noPermission} />
           </Col>
           <Col lg={displayFieldNames? 4 : 2}>
-            <Information id={id} displayFieldNames={displayFieldNames} />
+            <Information id={id} displayFieldNames={displayFieldNames} noPermission={this.noPermission} />
           </Col>
         </Row>
       </React.Fragment>

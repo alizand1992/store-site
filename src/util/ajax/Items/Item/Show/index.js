@@ -9,13 +9,13 @@ export const getItemWithAttributes = (id, callback) => {
     });
 };
 
-export const getImageUrls = (id, callback) => {
+export const getImageUrls = (id, success, failure) => {
   axios.get(`/api/items/${id}/images`)
     .then((res) => {
       const { images } = res.data;
 
-      callback(images);
+      success(images);
     }).catch((err) => {
-      console.log(err);
+      failure(err);
     });
 };

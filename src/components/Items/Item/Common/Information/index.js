@@ -1,36 +1,70 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
+import { isUserSignedIn } from '../../../../../util/ajax/User';
 import { saveItem } from '../../../../../util/ajax/Items/Item/New';
 import { getItemWithAttributes } from '../../../../../util/ajax/Items/Item/Show';
 import { updateItem } from '../../../../../util/ajax/Items/Item/Edit';
+
+import { LoadingPage } from '../../../../Common/LoadingPage';
 
 class Information extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      auth_key: props.auth_key,
       name: '',
       show_in_gallery: false,
+      redirect: false,
     };
   }
 
   componentDidMount() {
-    const { id } = this.props.match.params;
+    const { auth_key } = this.state;
 
-    if (id) {
-      getItemWithAttributes(id, (res) => {
-        console.log(res)
-        this.setState({
-          id: id,
-          name: res.data.item.name,
-          show_in_gallery: res.data.item.show_in_gallery,
-        })
-      })
+    this.interval = undefined;
+
+    if (auth_key) {
+      clearInterval(this.interval)
+
+      isUserSignedIn(auth_key, (res) => {
+        const { id } = this.props.match.params;
+
+        if (id) {
+          getItemWithAttributes(id, (res) => {
+            console.log(res)
+            this.setState({
+              id: id,
+              name: res.data.item.name,
+              show_in_gallery: res.data.item.show_in_gallery,
+            })
+          });
+        }
+      }, (err) => {
+        this.setState({ redirect: true });
+      });
+    } else { // if no auth_key wait 5 seconds and redirect to sign in
+      if (this.interval) {
+        this.interval = setInterval(() => {
+          clearInterval(this.interval);
+          this.setState({ redirect: true });
+        }, 3000)
+      }
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { auth_key } = this.props;
+    if (prevProps.auth_key !== auth_key) {
+      this.setState({ auth_key });
     }
   }
 
@@ -77,7 +111,15 @@ class Information extends React.Component {
   }
 
   render() {
-    const { name, show_in_gallery } = this.state;
+    const { auth_key, redirect, name, show_in_gallery } = this.state;
+
+    if (redirect) {
+      return <Redirect to="/user/sign_in" />;
+    }
+
+    if (!auth_key) {
+      return <LoadingPage />;
+    }
 
     return (
       <Form>
@@ -107,4 +149,8 @@ class Information extends React.Component {
   }
 }
 
-export default Information;
+const mapStateToProps = (state) => ({
+  auth_key: state.user.auth_key,
+});
+
+export default connect(mapStateToProps)(Information);

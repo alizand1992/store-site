@@ -21,6 +21,7 @@ import { PostRoutes } from './Routes/Posts';
 import { UserRoutes } from './Routes/User';
 import { bindActionCreators } from 'redux';
 import { setAuthKey } from './actions/User';
+import { isUserSignedIn } from './util/ajax/User';
 
 class App extends React.Component {
   constructor(props) {
@@ -32,8 +33,15 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    if (localStorage.getItem('auth_key')) {
-      this.props.setAuthKey(localStorage.getItem('auth_key'));
+    const auth_key = localStorage.getItem('auth_key')
+    if (auth_key) {
+      isUserSignedIn(auth_key, (res) => {
+        console.log(res)
+        this.props.setAuthKey(localStorage.getItem('auth_key'));
+      }, (err) => {
+        console.log(err);
+        localStorage.clear();
+      });
     }
   }
 

@@ -31,3 +31,18 @@ export const signOutUser = (auth_key, callback) => {
     console.log(err)
   });
 };
+
+export const isUserSignedIn = (authorization, success, failure) => {
+  axios.get(
+    '/api/application/is_user_signed_in',
+    {
+      headers: {
+        authorization,
+      },
+    }
+  ).then((res) => {
+    success(res);
+  }).catch((err) => {
+    failure(err);
+  })
+}

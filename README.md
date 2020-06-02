@@ -1,68 +1,53 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Store: Site
+This is the frontend of a simple site to share items (products, recipes, etc...) easily. 
 
-## Available Scripts
+## Features:
+* Site settings:
+  * Rename the site
+  * Rename the two left menu
+  * Some simple layout changes
+* Add item without any DB knowledge
+* Separate visitor and admin functionality.
+* Multi-admin (Allow multiple users to add, remove, or modify items or posts)
+* Soft-Delete (Show/Hide items and posts without fully deleting them)
 
-In the project directory, you can run:
 
-### `yarn start`
+* **NOTE:** This `Site` has to be used with the backend to have any of the above functionality.
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Requirements
+* nvm - Follow the instructions on [nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+  * `nvm install v12`
+* These should install using the command above:
+  * Node 12 LTS
+  * npm 6
+* **Note:** This documentation is for Ubuntu 20.04 LTS. This should also work on Windows or OSX but it has not been 
+verified.   
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## General Setup
+1. Clone this repository on your disk
+1. `cd path/to/directory`
+1. `npm install`
 
-### `yarn test`
+## Development
+To start the development server use `npm run start`. Any changes should trigger reload of the application.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Test
+This project uses Jest with Enzyme for testing the React components.
+To run all tests:
+* `npm run test`
 
-### `yarn build`
+This project makes use of [Travis CI](https://travis-ci.com/). 
+With the current `.travis.yml` any push to `master` or branches starting with `SITE` will trigger a build on
+[Travis CI](https://travis-ci.com/)     
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Production
+1. `npm run build`
+1. Server as a static site using your favourite server application. *I prefer Apache :)*
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Author
+Computer Engineering BS from San Jose State University.
 
-### `yarn eject`
+On my free time I code and Read about computers.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+[@ali_the_coder](https://twitter.com/ali_the_coder)

@@ -10,12 +10,16 @@ import DragAndDrop from '../../../../../util/DragAndDrop';
 
 import { saveImages } from '../../../../../util/ajax/Items/Item/New';
 import { getImageData } from '../../../../../util/ajax/Items/Item/Edit';
+import { isUserSignedIn } from '../../../../../util/ajax/User';
+import { getItemWithAttributes } from '../../../../../util/ajax/Items/Item/Show';
+import { connect } from 'react-redux';
 
 class Images extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      auth_key: props.auth_key,
       thumbnail: -1,
       deleted: [],
       data: [],
@@ -23,15 +27,30 @@ class Images extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const { id } = this.props.match.params;
+  getItemInformation = (auth_key) => {
+    if (auth_key) {
+      isUserSignedIn(auth_key, () => {
+        const { id } = this.props.match.params;
 
-    getImageData(id, (data) => {
-      this.setState({
-        id,
-        data,
+        getImageData(id, (data) => {
+          this.setState({
+            auth_key,
+            id,
+            data,
+          });
+        });
+      }, () => {
+        this.setState({ redirect: true });
       });
-    });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { auth_key } = this.props;
+
+    if (prevProps.auth_key !== auth_key) {
+      this.getItemInformation(auth_key);
+    }
   }
 
   onFileDrop = (newFiles) => {
@@ -58,14 +77,11 @@ class Images extends React.Component {
   }
 
   onThumbnail = (thumbnail) => {
-    console.log(thumbnail)
     this.setState({ thumbnail });
   }
 
   submit = () => {
     let { id, files, data, deleted, thumbnail } = this.state;
-
-    console.log(id, files, thumbnail)
 
     if (thumbnail === -1 && files) {
       thumbnail = files[0];
@@ -140,4 +156,8 @@ class Images extends React.Component {
   }
 }
 
-export default Images;
+const mapStateToProps = (state) => ({
+  auth_key: state.user.auth_key,
+});
+
+export default connect(mapStateToProps)(Images);

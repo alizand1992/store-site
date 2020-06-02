@@ -24,47 +24,38 @@ class Information extends React.Component {
       name: '',
       show_in_gallery: false,
       redirect: false,
+      noPermission: false,
     };
   }
 
-  componentDidMount() {
-    const { auth_key } = this.state;
-
-    this.interval = undefined;
-
+  getItemInformation = (auth_key) => {
     if (auth_key) {
-      clearInterval(this.interval)
-
-      isUserSignedIn(auth_key, (res) => {
+      isUserSignedIn(auth_key, () => {
         const { id } = this.props.match.params;
 
         if (id) {
           getItemWithAttributes(id, (res) => {
-            console.log(res)
             this.setState({
-              id: id,
+              auth_key,
+              id,
               name: res.data.item.name,
               show_in_gallery: res.data.item.show_in_gallery,
             })
           });
+        } else {
+          this.setState({ auth_key });
         }
-      }, (err) => {
+      }, () => {
         this.setState({ redirect: true });
       });
-    } else { // if no auth_key wait 5 seconds and redirect to sign in
-      if (this.interval) {
-        this.interval = setInterval(() => {
-          clearInterval(this.interval);
-          this.setState({ redirect: true });
-        }, 3000)
-      }
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { auth_key } = this.props;
+
     if (prevProps.auth_key !== auth_key) {
-      this.setState({ auth_key });
+      this.getItemInformation(auth_key);
     }
   }
 

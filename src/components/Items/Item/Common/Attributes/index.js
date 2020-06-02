@@ -11,6 +11,9 @@ import Toast from 'react-bootstrap/Toast';
 
 import { saveAttributes } from '../../../../../util/ajax/Items/Item/New';
 import { getItemWithAttributes } from '../../../../../util/ajax/Items/Item/Show';
+import { isUserSignedIn } from '../../../../../util/ajax/User';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 const UP = 1;
 const DOWN = 0;
@@ -20,25 +23,41 @@ class Attributes extends React.Component {
     super(props);
 
     this.state = {
+      auth_key: props.auth_key,
       id: false,
       error: false,
+      redirect: false,
       newFields: [],
       name: '',
       value: '',
     }
   }
 
-  componentDidMount() {
-    const { id } = this.props.match.params;
+  getItemInformation = (auth_key) => {
+    if (auth_key) {
+      isUserSignedIn(auth_key, () => {
+        const { id } = this.props.match.params;
 
-    if (id) {
-      getItemWithAttributes(id, (res) => {
-        console.log(res)
-        this.setState({
-          id: id,
-          newFields: res.data.attrs,
-        })
-      })
+        if (id) {
+          getItemWithAttributes(id, (res) => {
+            this.setState({
+              auth_key,
+              id,
+              newFields: res.data.attrs,
+            })
+          })
+        }
+      }, () => {
+        this.setState({ redirect: true });
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    const { auth_key } = this.props;
+
+    if (prevProps.auth_key !== auth_key) {
+      this.getItemInformation(auth_key);
     }
   }
 
@@ -136,7 +155,11 @@ class Attributes extends React.Component {
   }
 
   render() {
-    const { error, newFields, name, value, id } = this.state;
+    const { error, redirect, newFields, name, value, id } = this.state;
+
+    if (redirect) {
+      return <Redirect to="/user/sign_in" />;
+    }
 
     if (!id) {
       return <LoadingPage />
@@ -215,10 +238,14 @@ class Attributes extends React.Component {
             <Button onClick={this.submit}>Save</Button>
           </Col>
         </Row>
-
       </React.Fragment>
     )
   }
 }
 
-export default Attributes;
+
+const mapStateToProps = (state) => ({
+  auth_key: state.user.auth_key,
+});
+
+export default connect(mapStateToProps)(Attributes);

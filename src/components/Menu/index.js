@@ -39,7 +39,7 @@ class Menu extends React.Component {
       this.setState({ currentComponent })
     }
 
-    if (auth_key && auth_key !== prevProps.auth_key) {
+    if (auth_key !== prevProps.auth_key) {
       this.setState({ auth_key });
     }
   }

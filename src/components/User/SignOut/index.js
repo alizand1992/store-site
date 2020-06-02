@@ -17,23 +17,21 @@ class SignOut extends React.Component {
     };
   }
 
-  componentDidMount() {
+  componentDidUpdate(prevProps, prevState, snapshot) {
     const { auth_key } = this.props;
 
-    if (auth_key || localStorage.getItem('auth_key')) {
+    if (prevProps.auth_key !== auth_key && auth_key === undefined) {
+      this.setState({ redirect: true });
+    } else {
       const key = auth_key || localStorage.getItem('auth_key')
 
       signOutUser(key, (res) => {
-        console.log(res)
         localStorage.clear();
-        removeAuthKey();
-
-        this.setState({ redirect: true });
+        this.props.removeAuthKey();
       });
-    } else {
-      this.setState({ redirect: true });
     }
   }
+
   render() {
     if (this.state.redirect) {
       return <Redirect to="/" />

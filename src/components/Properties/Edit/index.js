@@ -27,6 +27,10 @@ class Edit extends React.Component {
     if (prevProps === undefined || prevProps.properties !== this.props.properties) {
       this.setState({ properties: this.props.properties });
     }
+
+    if (prevProps.auth_key !== this.props.auth_key) {
+      this.setState({ auth_key: this.props.auth_key });
+    }
   }
 
   componentDidMount() {
@@ -75,9 +79,9 @@ class Edit extends React.Component {
   }
 
   render() {
-    const { properties, loading } = this.state;
+    const { auth_key, properties, loading } = this.state;
 
-    if (!properties || loading) {
+    if (!properties || loading || !auth_key) {
       return <LoadingPage />
     }
 
@@ -113,6 +117,7 @@ class Edit extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
+  auth_key: state.user.auth_key,
   properties: state.common.properties,
 });
 

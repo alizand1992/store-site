@@ -7,6 +7,8 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 
 import { savePost, updatePost } from '../../../../util/ajax/Post';
+import { LoadingPage } from '../../../Common/LoadingPage';
+import { connect } from 'react-redux';
 
 class PostForm extends React.Component {
   constructor(props) {
@@ -30,6 +32,10 @@ class PostForm extends React.Component {
         body,
         active,
       });
+    }
+
+    if (prevProps.auth_key !== this.props.auth_key) {
+      this.setState({ auth_key: this.props.auth_key });
     }
   }
 
@@ -75,7 +81,11 @@ class PostForm extends React.Component {
   }
 
   render() {
-    const { id, errors, title, active, body } = this.state;
+    const { auth_key, id, errors, title, active, body } = this.state;
+
+    if (!auth_key) {
+      return <LoadingPage />;
+    }
 
     return (
       <Form>
@@ -127,4 +137,8 @@ class PostForm extends React.Component {
   }
 }
 
-export default PostForm;
+const mapStateToProps = (state) => ({
+  auth_key: state.user.auth_key,
+});
+
+export default connect(mapStateToProps)(PostForm);

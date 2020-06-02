@@ -14,6 +14,10 @@ This is the frontend of a simple site to share items (products, recipes, etc...)
 
 * **NOTE:** This `Site` has to be used with the backend to have any of the above functionality.
 
+## Feature Goals:
+* Allow editing of thumbnail box
+* Use RTE (Rich Text Editor) to allow user to enter their about/contact information
+
 ## Requirements
 * nvm - Follow the instructions on [nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
   * `nvm install v12`
@@ -42,7 +46,7 @@ With the current `.travis.yml` any push to `master` or branches starting with `S
 
 ## Production
 1. `npm run build`
-1. Server as a static site using your favourite server application. *I prefer Apache :)*
+1. Serve as a static site using your favourite server application. *I prefer Apache :)*
 
 
 ## Author
@@ -50,4 +54,4 @@ Computer Engineering BS from San Jose State University.
 
 On my free time I code and Read about computers.
 
-[@ali_the_coder](https://twitter.com/ali_the_coder)
+Follow [@ali_the_coder](https://twitter.com/ali_the_coder) on Twitter

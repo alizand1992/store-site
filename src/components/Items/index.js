@@ -6,10 +6,10 @@ import Row from 'react-bootstrap/Row';
 
 // Components
 import Add from './Add';
-import Thumbnail from './Thumbnail';
+import ImageContainer from '../Gallery/ImageContainer';
 
 // Ajax
-import { getItems } from '../../util/ajax/Items';
+import { getThumbnails } from '../../util/ajax/gallery';
 
 class Items extends React.Component {
   constructor(props) {
@@ -21,8 +21,8 @@ class Items extends React.Component {
   }
 
   componentDidMount() {
-    getItems((items) => {
-      this.setState({items})
+    getThumbnails((result) => {
+      this.setState({ items: result.data.items });
     });
   }
 
@@ -33,8 +33,12 @@ class Items extends React.Component {
       <Row>
         {items.map((item) => {
           return (
-            <Col lg={3} md={4} sm={6} xs={6}>
-              <Thumbnail id={item.id} name={item.name} />
+            <Col lg={3} md={4} sm={6} xs={6} key={item.id}>
+              <ImageContainer thumbnail={item.thumbnail}
+                              edit={true}
+                              name={item.name}
+                              history={this.props.history}
+                              id={item.id} />
             </Col>
           )
         })}

@@ -8,7 +8,7 @@ class ImageContainer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      thumbnail: null,
+      thumbnail: 'image_placeholder.jpg',
     };
   }
 
@@ -46,20 +46,24 @@ class ImageContainer extends React.Component {
   }
 
   goToItem = (id) => {
-    this.props.history.push(`/item/${id}`);
+    if (this.props.edit === true) {
+      this.props.history.push(`/item/edit/${id}`);
+    } else {
+      this.props.history.push(`/item/${id}`);
+    }
   }
 
   render() {
     const { id, name } = this.props;
     const { thumbnail } = this.state;
 
-    if (!thumbnail) {
+    if (!this.props.thumbnail && !name) {
       return this.loading();
     }
 
     return (
       <React.Fragment>
-        <Card onClick={(e) => {this.goToItem(id)}}>
+        <Card onClick={(e) => {this.goToItem(id)}} style={{ cursor: 'pointer' }}>
           <Card.Img variant="top" src={thumbnail} width={250} />
           <Card.Body>
             <Card.Text className="text-center">{name}</Card.Text>

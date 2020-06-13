@@ -1,20 +1,28 @@
 import axios from 'axios';
 
 export const signInUser = (data, callback) => {
-  axios.post(
-  '/api/users/sign_in', {
-      user: data,
-    }, {
-      dataType: 'application/json',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    }
-  ).then((res) => {
-    callback(res);
-  }).catch((err) => {
-    console.log(err);
-  });
+  axios.get('/api/application/new')
+    .then((res) => {
+      const { authenticity_token } = res.data;
+
+      axios.post(
+        '/api/users/sign_in', {
+          authenticity_token,
+          user: data,
+        }, {
+          dataType: 'application/json',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      ).then((res) => {
+        callback(res);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
 };
 
 export const signOutUser = (auth_key, callback) => {

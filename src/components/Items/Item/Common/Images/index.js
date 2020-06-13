@@ -45,6 +45,14 @@ class Images extends React.Component {
     }
   }
 
+  componentDidMount() {
+    const { auth_key } = this.props;
+
+    if (auth_key) {
+      this.getItemInformation(auth_key);
+    }
+  }
+
   componentDidUpdate(prevProps, prevState, snapshot) {
     const { auth_key } = this.props;
 

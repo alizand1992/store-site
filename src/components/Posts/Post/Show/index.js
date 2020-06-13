@@ -8,11 +8,15 @@ class Post extends React.Component {
     const { title, body, created_at } = this.props.post;
 
     return (
-
       <React.Fragment>
         <Row>
           <Col>
             <h2>{title}</h2>
+          </Col>
+          <Col>
+            <span style={{ display: 'inline-block', paddingTop: '10px' }}>
+              <i className="material-icons">edit</i>
+            </span>
           </Col>
         </Row>
         <Row>

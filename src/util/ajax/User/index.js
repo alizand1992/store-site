@@ -32,6 +32,29 @@ export const signOutUser = (auth_key, callback) => {
   });
 };
 
+export const signUpUser = (data, callback) => {
+  axios.get('/api/application/new')
+    .then((res) => {
+      const { authenticity_token } = res.data;
+
+      axios.post(
+        '/api/users',
+        {
+          authenticity_token,
+          user: {
+            ...data
+          },
+        }
+      ).then((res) => {
+        callback(res);
+      }).catch((err) => {
+        console.log(err);
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
+};
+
 export const isUserSignedIn = (authorization, success, failure) => {
   axios.get(
     '/api/application/is_user_signed_in',

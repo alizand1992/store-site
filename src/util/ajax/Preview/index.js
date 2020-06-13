@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const getImage = (image, callback) => {
-  const url = image.url.replace('http://localhost:3000', 'http://localhost:5000');
+  const url = image.url.replace('http://localhost:3000', 'http://localhost:5001');
   axios.get(url, {
     responseType: 'blob',
   }).then((res) => {

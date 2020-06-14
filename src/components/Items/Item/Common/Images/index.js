@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Preview from '../../Preview';
@@ -11,8 +13,6 @@ import DragAndDrop from '../../../../../util/DragAndDrop';
 import { saveImages } from '../../../../../util/ajax/Items/Item/New';
 import { getImageData } from '../../../../../util/ajax/Items/Item/Edit';
 import { isUserSignedIn } from '../../../../../util/ajax/User';
-import { getItemWithAttributes } from '../../../../../util/ajax/Items/Item/Show';
-import { connect } from 'react-redux';
 
 class Images extends React.Component {
   constructor(props) {

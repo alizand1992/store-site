@@ -1,11 +1,14 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
 class Post extends React.Component {
   render() {
-    const { title, body, created_at } = this.props.post;
+    const { id, title, body, created_at } = this.props.post;
 
     return (
       <React.Fragment>
@@ -13,11 +16,15 @@ class Post extends React.Component {
           <Col>
             <h2>{title}</h2>
           </Col>
-          <Col>
-            <span style={{ display: 'inline-block', paddingTop: '10px' }}>
-              <i className="material-icons">edit</i>
-            </span>
-          </Col>
+          {this.props.auth_key &&
+            <Col lg={1}>
+              <span style={{ display: 'inline-block', paddingTop: '10px', cursor: 'pointer' }}>
+                <Link to={`/posts/${id}/edit/`} style={{ color: 'black' }}>
+                  <i className="material-icons">edit</i>
+                </Link>
+              </span>
+            </Col>
+          }
         </Row>
         <Row>
           <Col>
@@ -39,4 +46,8 @@ class Post extends React.Component {
   }
 }
 
-export default Post;
+const mapStateToProps = (state) => ({
+  auth_key: state.user.auth_key,
+});
+
+export default connect(mapStateToProps)(Post);

@@ -26,18 +26,28 @@ export const signInUser = (data, callback) => {
 };
 
 export const signOutUser = (auth_key, callback) => {
-  axios.delete(
-    '/api/users/sign_out',
-    {
-      headers: {
-        authorization: auth_key,
-      },
-    }
-  ).then((res) => {
-    callback(res);
-  }).catch((err) => {
-    console.log(err)
-  });
+  axios.get('/api/application/new')
+    .then((res) => {
+      const { authenticity_token } = res.data;
+
+      axios.delete(
+        '/api/users/sign_out',
+        {
+          data: {
+            authenticity_token,
+          },
+          headers: {
+            authorization: auth_key,
+          },
+        }
+      ).then((res) => {
+        callback(res);
+      }).catch((err) => {
+        console.log(err)
+      });
+    }).catch((err) => {
+      console.log(err);
+    });
 };
 
 export const signUpUser = (data, callback) => {

@@ -15,6 +15,7 @@ class PostForm extends React.Component {
     super(props);
 
     this.state = {
+      auth_key: props.auth_key,
       title: props.title || '',
       body: props.body || '',
       active: props.active || false,

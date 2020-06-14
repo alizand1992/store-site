@@ -49,6 +49,8 @@ class Menu extends React.Component {
       if ([SITE_NAME, MENU_1, MENU_2].includes(prop.name)) {
         return { [prop.name]: prop.value };
       }
+
+      return undefined;
     }).filter(value => value !== undefined);
 
     const state = {};

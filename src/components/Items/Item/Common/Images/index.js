@@ -114,13 +114,13 @@ class Images extends React.Component {
 
     saveImages(id, thumbnail, files, deleted, (res) => {
       if (res.data.success) {
-        this.props.history.push(`/`);
+        this.props.history.push(`/item/edit/${id}/thumbnail`);
       }
     });
   }
 
   skip = () => {
-    this.props.history.push(`/`);
+    this.props.history.push(`/item/edit/${this.state.id}/thumbnail`);
   }
 
   saveIsDisabled = () => {
@@ -131,6 +131,7 @@ class Images extends React.Component {
 
   render() {
     const { id, data, files } = this.state;
+
     if (!id) {
       return <LoadingPage />
     }

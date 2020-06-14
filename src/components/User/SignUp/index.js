@@ -43,7 +43,7 @@ class SignUp extends React.Component {
   signUp = () => {
     const { email, password, confirm_password } = this.state;
 
-    if (email === '' || password === '', confirm_password === '') {
+    if (email === '' || password === '' || confirm_password === '') {
       this.setState({
         errors: ['All fields are required'],
       });

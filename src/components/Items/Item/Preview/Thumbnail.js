@@ -56,7 +56,7 @@ class Thumbnail extends React.Component {
 
   render() {
     const { image } = this.state;
-    const { index, thumbnail } = this.props;
+    const { index } = this.props;
 
 
     if (!image) {
@@ -79,12 +79,6 @@ class Thumbnail extends React.Component {
             <b>{this.info()}</b>
           </Col>
           <Col lg={6} md={6} className="text-right" style={{ paddingTop: '15px' }}>
-            <Button variant={thumbnail === index ? 'success' : 'outline-success'}
-                    size="sm" style={{ cursor: 'pointer' }} className="mr-auto"
-                    onClick={(e) => {this.props.makeThumbnail(index)}}>
-              Make Thumbnail
-            </Button>
-            {' '}
             <Button variant="outline-danger"
                     size="sm"
                     onClick={(e) => {this.props.remove(index)}}

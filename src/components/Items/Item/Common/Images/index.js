@@ -20,7 +20,6 @@ class Images extends React.Component {
 
     this.state = {
       auth_key: props.auth_key,
-      thumbnail: -1,
       deleted: [],
       data: [],
       files: [],
@@ -84,35 +83,10 @@ class Images extends React.Component {
     });
   }
 
-  onThumbnail = (thumbnail) => {
-    this.setState({ thumbnail });
-  }
-
   submit = () => {
-    let { id, files, data, deleted, thumbnail } = this.state;
+    let { id, files, data, deleted } = this.state;
 
-    if (thumbnail === -1 && files) {
-      thumbnail = files[0];
-    } else {
-      let temp = data.filter(d => d.id === thumbnail);
-
-      if (deleted.includes(thumbnail)) {
-        if (data.length > 0) {
-          thumbnail = data[0].id;
-        } else if (files.length > 0) {
-          thumbnail = files[0];
-        }
-      } else if (temp.length === 1) {
-        thumbnail = temp[0].id;
-      } else {
-        let addToIndex = 0;
-        data.forEach((d) => { if (d.id > addToIndex) addToIndex = d.id; });
-        addToIndex++;
-        thumbnail = files[thumbnail - addToIndex]
-      }
-    }
-
-    saveImages(id, thumbnail, files, deleted, (res) => {
+    saveImages(id, files, deleted, (res) => {
       if (res.data.success) {
         this.props.history.push(`/item/edit/${id}/thumbnail`);
       }
@@ -148,8 +122,7 @@ class Images extends React.Component {
             <Preview data={data}
                      files={files}
                      onRemove={this.onRemove}
-                     onDelete={this.onDelete}
-                     onThumbnail={this.onThumbnail} />
+                     onDelete={this.onDelete} />
           </Col>
         </Row>
         <br />

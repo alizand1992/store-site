@@ -8,15 +8,9 @@ class Preview extends React.Component{
     super(props);
 
     this.state = {
-      thumbnail: 0,
       data: props.data,
       files: props.files,
     };
-  }
-
-  makeThumbnail = (index) => {
-    this.setState({ thumbnail: index })
-    this.props.onThumbnail(index);
   }
 
   remove = (index) => {
@@ -37,7 +31,7 @@ class Preview extends React.Component{
   }
 
   render() {
-    const { data, files, thumbnail } = this.state
+    const { data, files } = this.state
 
     let addToIndex = 0;
 
@@ -55,9 +49,7 @@ class Preview extends React.Component{
             <Thumbnail index={d.id}
                        remove={this.delete}
                        inMemoryFile={d}
-                       key={d.id}
-                       thumbnail={thumbnail}
-                       makeThumbnail={this.makeThumbnail} />
+                       key={d.id} />
           )
         })}
         {files.map((file, index) => {
@@ -65,9 +57,7 @@ class Preview extends React.Component{
             <Thumbnail index={index + addToIndex}
                        remove={this.remove}
                        inMemoryFile={file}
-                       key={index}
-                       thumbnail={thumbnail}
-                       makeThumbnail={this.makeThumbnail} />
+                       key={index} />
           );
         })}
       </ListGroup>

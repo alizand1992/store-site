@@ -5,15 +5,18 @@ import Preview from '../../Preview';
 import { LoadingPage } from '../../../../Common/LoadingPage';
 import { isUserSignedIn } from '../../../../../util/ajax/User';
 import { getImageData } from '../../../../../util/ajax/Items/Item/Edit';
+import { connect } from 'react-redux';
+import Thumbnail from './Thumbnail';
 
-class Thumbnail extends React.Component {
+class SelectThumbnail extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
       auth_key: props.auth_key,
       id: 0,
-      files: [],
+      thumbnail: 0,
+      images: [],
     };
   }
 
@@ -26,7 +29,7 @@ class Thumbnail extends React.Component {
           this.setState({
             auth_key,
             id,
-            data,
+            images: data,
           });
         });
       }, () => {
@@ -51,8 +54,12 @@ class Thumbnail extends React.Component {
     }
   }
 
+  thumbnail = (thumbnail) => {
+    this.setState({ thumbnail });
+  }
+
   render() {
-    const { id, data, files } = this.state;
+    const { id, images, thumbnail } = this.state;
 
     if (!id) {
       return <LoadingPage />
@@ -61,17 +68,29 @@ class Thumbnail extends React.Component {
     return (
       <React.Fragment>
         <Row>
-          <Col lg={12}>
-            <Preview data={data}
-                     files={files}
-                     onRemove={this.onRemove}
-                     onDelete={this.onDelete}
-                     onThumbnail={this.onThumbnail} />
+          <Col>
+            <h3>Choose a Thumbnail:</h3>
           </Col>
+        </Row>
+        <Row>
+          {images.map((image) => {
+            return (
+              <Col lg={4} md={4} sm={6} xs={6} key={image.url}>
+                <Thumbnail image={image}
+                           id={id}
+                           thumbnail={this.thumbnail}
+                           selected={image.id === thumbnail} />
+              </Col>
+            )
+          })}
         </Row>
       </React.Fragment>
     )
   }
 }
 
-export default Thumbnail;
+const mapStateToProps = (state) => ({
+  auth_key: state.user.auth_key,
+});
+
+export default connect(mapStateToProps)(SelectThumbnail);

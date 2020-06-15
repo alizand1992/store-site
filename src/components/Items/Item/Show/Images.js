@@ -1,9 +1,12 @@
 import React from 'react';
-import { getImageUrls } from '../../../../util/ajax/Items/Item/Show';
+
 import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import { LoadingPage } from '../../../Common/LoadingPage';
 import Image from 'react-bootstrap/Image';
+import Row from 'react-bootstrap/Row';
+
+import { LoadingPage } from '../../../Common/LoadingPage';
+
+import { getImageUrls } from '../../../../util/ajax/Items/Item/Show';
 
 class Images extends React.Component {
   constructor(props) {

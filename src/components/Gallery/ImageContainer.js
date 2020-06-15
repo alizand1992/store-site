@@ -36,7 +36,11 @@ class ImageContainer extends React.Component {
     return (
       <React.Fragment>
         <Card style={{
-          display: 'inline-block', width: '250px', height: '250px', textAlign: 'center', paddingTop: '30%',
+          display: 'inline-block',
+          width: '250px',
+          height: '250px',
+          textAlign: 'center',
+          paddingTop: '30%',
         }}>
           <Spinner animation="border"></Spinner>
         </Card>
@@ -45,7 +49,17 @@ class ImageContainer extends React.Component {
     )
   }
 
-  goToItem = (id) => {
+  onClick = () => {
+    if (this.props.onClick) {
+      this.props.onClick();
+    } else {
+      this.goToItem();
+    }
+  }
+
+  goToItem = () => {
+    const { id } = this.props;
+
     if (this.props.edit === true) {
       this.props.history.push(`/item/edit/${id}`);
     } else {
@@ -54,8 +68,19 @@ class ImageContainer extends React.Component {
   }
 
   render() {
-    const { id, name } = this.props;
+    const { name, selected } = this.props;
     const { thumbnail } = this.state;
+
+    let style = {
+      cursor: 'pointer',
+    };
+
+    if (selected) {
+      style = {
+        ...style,
+        borderColor: 'green',
+      };
+    }
 
     if (!this.props.thumbnail && !name) {
       return this.loading();
@@ -63,7 +88,7 @@ class ImageContainer extends React.Component {
 
     return (
       <React.Fragment>
-        <Card onClick={(e) => {this.goToItem(id)}} style={{ cursor: 'pointer' }}>
+        <Card onClick={this.onClick} style={style}>
           <Card.Img variant="top" src={thumbnail} width={250} />
           <Card.Body>
             <Card.Text className="text-center">{name}</Card.Text>

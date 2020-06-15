@@ -1,12 +1,16 @@
 import React from 'react';
-import Row from 'react-bootstrap/Row';
+
+import { connect } from 'react-redux';
+
+import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import Preview from '../../Preview';
+import Row from 'react-bootstrap/Row';
+
 import { LoadingPage } from '../../../../Common/LoadingPage';
+import Thumbnail from './Thumbnail';
+
 import { isUserSignedIn } from '../../../../../util/ajax/User';
 import { getImageData } from '../../../../../util/ajax/Items/Item/Edit';
-import { connect } from 'react-redux';
-import Thumbnail from './Thumbnail';
 
 class SelectThumbnail extends React.Component {
   constructor(props) {
@@ -58,6 +62,14 @@ class SelectThumbnail extends React.Component {
     this.setState({ thumbnail });
   }
 
+  done = () => {
+    if (this.state.thumbnail === 0) {
+      this.setState({ showModal: true });
+    } else {
+      this.props.history.push(`/`);
+    }
+  }
+
   render() {
     const { id, images, thumbnail } = this.state;
 
@@ -83,6 +95,12 @@ class SelectThumbnail extends React.Component {
               </Col>
             )
           })}
+        </Row>
+        <br />
+        <Row>
+          <Col lg={12} className="text-right">
+            <Button onClick={this.done}>Done</Button>
+          </Col>
         </Row>
       </React.Fragment>
     )

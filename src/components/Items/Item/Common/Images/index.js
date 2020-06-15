@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import Preview from '../../Preview';
 import Row from 'react-bootstrap/Row';
 
+import Preview from '../../Preview';
 import { LoadingPage } from '../../../../Common/LoadingPage';
 import DragAndDrop from '../../../../../util/DragAndDrop';
 

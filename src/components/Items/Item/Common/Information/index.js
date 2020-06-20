@@ -84,13 +84,13 @@ class Information extends React.Component {
 
   saveItem = () => {
     updateItem(this.state, (res) => {
-      this.props.history.push(`/item/new/${res.data.id}/attributes`);
+      this.props.history.push(`/item/edit/${res.data.id}/attributes`);
     })
   }
 
   skip = () => {
     const { id } = this.state;
-    this.props.history.push(`/item/new/${id}/attributes`);
+    this.props.history.push(`/item/edit/${id}/attributes`);
   }
 
   renderButtons = () => {

@@ -5,11 +5,18 @@ export const updateItem = (data, callback) => {
     .then((res) => {
       const { authenticity_token } = res.data;
 
+      const { name, show_in_gallery, auth_key } = data;
+
       axios.put(
         `/api/items/${data.id}`,
         {
-          ...data,
+          name,
+          show_in_gallery,
           authenticity_token,
+        }, {
+          headers: {
+            authorization: auth_key,
+          },
         }
       ).then((res) => {
         callback(res);

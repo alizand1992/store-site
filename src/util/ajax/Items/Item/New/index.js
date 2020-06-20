@@ -5,11 +5,19 @@ export const saveItem = (data, callback) => {
     .then((res) => {
       const { authenticity_token } = res.data;
 
+      const { auth_key: authorization } = data;
+      delete data.auth_key;
+
       axios.post(
         '/api/items',
         {
           ...data,
           authenticity_token,
+        },
+        {
+          headers: {
+            authorization,
+          }
         }
       ).then((res) => {
         callback(res);

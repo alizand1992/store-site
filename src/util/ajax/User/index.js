@@ -60,7 +60,7 @@ export const signUpUser = (data, callback) => {
         {
           authenticity_token,
           user: {
-            ...data
+            ...data,
           },
         }
       ).then((res) => {

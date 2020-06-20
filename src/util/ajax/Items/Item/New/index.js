@@ -50,7 +50,7 @@ export const saveAttributes = (data, callback) => {
     });
 }
 
-export const saveImages = (id, images, deleted, callback) => {
+export const saveImages = (id, images, deleted, auth_key, callback) => {
   axios.get('/api/application/new')
     .then((res) => {
       const { authenticity_token } = res.data;
@@ -74,7 +74,8 @@ export const saveImages = (id, images, deleted, callback) => {
         url,
         data: formData,
         headers: {
-          'Content-Type': `multipart/form-data; boundary=${1}`
+          authorization: auth_key,
+          'Content-Type': `multipart/form-data; boundary=${1}`,
         }
       }).then((res) => {
         callback(res);

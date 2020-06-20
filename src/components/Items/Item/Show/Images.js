@@ -21,7 +21,7 @@ class Images extends React.Component {
     const { id } = this.props;
 
     getImageUrls(id, (urls) => {
-      urls = urls.map((url => url.replace(':3000', ':5001')))
+      urls = urls.map((url => url.replace(':3000', ':5000')));
       this.setState({ urls });
     }, (err) => {
       if (err.response.status === 401) {

@@ -84,9 +84,9 @@ class Images extends React.Component {
   }
 
   submit = () => {
-    let { id, files, data, deleted } = this.state;
+    let { id, files, deleted, auth_key } = this.state;
 
-    saveImages(id, files, deleted, (res) => {
+    saveImages(id, files, deleted, auth_key, (res) => {
       if (res.data.success) {
         this.props.history.push(`/item/edit/${id}/thumbnail`);
       }

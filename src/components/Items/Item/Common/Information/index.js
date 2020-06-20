@@ -34,7 +34,7 @@ class Information extends React.Component {
         const { id } = this.props.match.params;
 
         if (id) {
-          getItemWithAttributes(id, (res) => {
+          getItemWithAttributes(id, auth_key, (res) => {
             this.setState({
               auth_key,
               id,

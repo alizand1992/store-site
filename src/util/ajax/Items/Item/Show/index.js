@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-export const getItemWithAttributes = (id, callback) => {
-  axios.get(`/api/items/${id}`)
-    .then((res) => {
+export const getItemWithAttributes = (id, auth_key, callback) => {
+  axios.get(`/api/items/${id}`, {
+      headers: {
+        authorization: auth_key,
+      },
+    }).then((res) => {
       callback(res);
     }).catch((err) => {
       console.log(err);
